@@ -29,5 +29,5 @@ MONTAGE_NOTE = (
     "STEW channel names absent from .mat; Emotiv-14 order in config.EMOTIV_CH_NAMES is an "
     "assumption for Variant A / topo maps only. Primary 84-D features are channel-index "
     "band powers and do not require names. Units in .mat are undocumented — use relative power. "
-    "See data/MONTAGE_AND_UNITS.md."
+    "See docs/MONTAGE_AND_UNITS.md."
 )

@@ -17,7 +17,7 @@ MAT_FILES = (
 )
 LABEL_FILES = {"class_012.mat", "rating.mat", "three_class_one_hot.mat"}
 SKIP_KEYS = {"__header__", "__version__", "__globals__"}
-OUT_PATH = config.ROOT / "data" / "DATA_SUMMARY.md"
+OUT_PATH = config.ROOT / "docs" / "DATA_SUMMARY.md"
 
 # From Kaggle STEW PDF: 14 channels, 128 Hz, 19200 samples/subject
 PDF_N_CHANNELS = 14

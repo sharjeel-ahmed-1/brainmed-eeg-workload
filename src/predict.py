@@ -28,7 +28,7 @@ def _epoch_y(groups: np.ndarray, y_subject: np.ndarray) -> np.ndarray:
 def save_primary_model(path: Path = None) -> Path:
     """
     Fit PRIMARY RF on all cached epochs and save.
-    Demo only — not a held-out model (see PROJECT.md).
+    Demo only — not a held-out model (see docs/PROJECT.md).
     """
     path = path or config.MODEL_PATH
     cache = load_feature_cache(feature_cache_path())

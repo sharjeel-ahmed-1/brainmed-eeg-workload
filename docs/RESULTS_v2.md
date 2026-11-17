@@ -2,6 +2,8 @@
 
 Frozen v1 primary stays in [`RESULTS.md`](RESULTS.md). Numbers below are from `logs/v2/` only.
 
+> Paths are under `docs/` in the repository root.
+
 ## Track A — STEW multi-threshold LOSO
 
 | threshold | n_high | majority | LOSO acc | LOSO bal-acc |
@@ -46,4 +48,4 @@ python -m src.train_v2_newdataset_all --conditions EO,AC1,AC2,AC3,AC4 --log-dir 
 
 ## Montage / units
 
-See `data/MONTAGE_AND_UNITS.md` and `config_ext.MONTAGE_NOTE`.
+See [`MONTAGE_AND_UNITS.md`](MONTAGE_AND_UNITS.md) and `config_ext.MONTAGE_NOTE`.

@@ -27,7 +27,7 @@ st.warning(
     "**Honest limits:** No live headset / not medical advice. "
     f"Frozen PRIMARY LOSO was **null** (acc 0.356 < majority 0.556; perm p≈0.98). "
     "Demo model fit on **all subjects**. "
-    f"Upload: **{config.N_CHANNELS} EEG channels**. See `RESULTS.md`."
+    f"Upload: **{config.N_CHANNELS} EEG channels**. See `docs/RESULTS.md`."
 )
 
 # ---- Helpful options (sidebar) ----

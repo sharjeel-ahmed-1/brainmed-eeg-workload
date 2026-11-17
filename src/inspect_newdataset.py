@@ -9,7 +9,7 @@ import config
 import config_ext
 
 BASE = config_ext.NEWDATASET_DIR
-OUT_PATH = config.ROOT / "data" / "NEWDATASET_SUMMARY.md"
+OUT_PATH = config.ROOT / "docs" / "NEWDATASET_SUMMARY.md"
 EEG_CHANNELS = list(config_ext.NEWDATASET_CH_NAMES)
 CONDITIONS = ("EO", "AC1", "AC2", "AC3", "AC4")
 

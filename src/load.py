@@ -30,7 +30,7 @@ def _load_stew_dataset() -> np.ndarray:
         raise ValueError(
             f"Unexpected dataset shape {data.shape}; "
             f"expected {(config.N_CHANNELS, config.N_TIMES, config.N_SUBJECTS)} "
-            "(channels, time, subjects). See data/DATA_SUMMARY.md."
+            "(channels, time, subjects). See docs/DATA_SUMMARY.md."
         )
     return data
 

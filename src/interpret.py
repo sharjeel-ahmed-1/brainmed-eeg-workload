@@ -3,7 +3,7 @@ Phase 3 — descriptive interpretation of frozen RF / variant-A LR.
 
 Fits on all subjects for visualization only (not a held-out claim).
 Channel montage uses config.EMOTIV_CH_NAMES (assumption; not in STEW .mat).
-See data/MONTAGE_AND_UNITS.md — maps are descriptive only given null LOSO.
+See docs/MONTAGE_AND_UNITS.md — maps are descriptive only given null LOSO.
 """
 from __future__ import annotations
 
@@ -236,7 +236,7 @@ def main() -> None:
 
     order = np.argsort(imp)[::-1]
     top_names = [names[i] for i in order[:12]]
-    note_path = config.ROOT / "data" / "INTERPRETATION.md"
+    note_path = config.ROOT / "docs" / "INTERPRETATION.md"
     write_lit_note(note_path, top_names, a_coef)
 
     print("Wrote figures →", FIG_DIR)

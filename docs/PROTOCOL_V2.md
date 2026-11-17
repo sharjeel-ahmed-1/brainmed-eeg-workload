@@ -15,7 +15,7 @@ v2 addresses label density and evaluation hygiene without leaking test subjects 
 
 ## Track B — Newdataset Control vs Stress (primary v2 research path)
 
-Source: `data/raw/newdataset/newdataset/` — see `data/NEWDATASET_SUMMARY.md`.
+Source: `data/raw/newdataset/newdataset/` — see [`NEWDATASET_SUMMARY.md`](NEWDATASET_SUMMARY.md).
 
 | Item | Value |
 |------|--------|

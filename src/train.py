@@ -867,7 +867,7 @@ def main(
             m["accuracy"], m["balanced_accuracy"],
             lines, log_path, target,
         )
-        report_path = config.ROOT / "data" / "SANITY_REPORT.md"
+        report_path = config.ROOT / "docs" / "SANITY_REPORT.md"
         # Prepend note that earlier stages are in sanity_frozen_parallel.log
         header = (
             "# Sanity / LOSO report (perm + variants)\n\n"
@@ -1017,7 +1017,7 @@ def main(
         lines.append("")
     _stage_log(log_path, f"STAGE variant B done: {_elapsed(t0)}")
 
-    report_path = config.ROOT / "data" / "SANITY_REPORT.md"
+    report_path = config.ROOT / "docs" / "SANITY_REPORT.md"
     report_path.write_text(
         "# Sanity / LOSO report\n\n```\n" + "\n".join(lines) + "\n```\n",
         encoding="utf-8",

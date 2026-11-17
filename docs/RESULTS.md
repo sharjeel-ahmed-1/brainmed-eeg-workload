@@ -65,7 +65,7 @@ Demo model is fit on **all** subjects. UI simplifies when predicted class = high
 
 ### Remediation (does not change the table above)
 
-See `PROTOCOL_V2.md`, `RESULTS_v2.md`, `data/MONTAGE_AND_UNITS.md`, `data/NEWDATASET_SUMMARY.md`.
+See [`PROTOCOL_V2.md`](PROTOCOL_V2.md), [`RESULTS_v2.md`](RESULTS_v2.md), [`MONTAGE_AND_UNITS.md`](MONTAGE_AND_UNITS.md), [`NEWDATASET_SUMMARY.md`](NEWDATASET_SUMMARY.md).
 Product paths: API `model_mode=loso_held_out`, `/api/live/replay`, methods banner.
 
 ## Internship / portfolio takeaways
