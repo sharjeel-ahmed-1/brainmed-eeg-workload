@@ -1,0 +1,134 @@
+.topnav-wrap {
+  position: fixed;
+  top: 14px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.topnav {
+  pointer-events: auto;
+  width: min(1200px, 100%);
+  min-height: var(--nav-h);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  font-size: 15px;
+}
+
+.brand-mark {
+  color: var(--cyan);
+  filter: drop-shadow(0 0 8px var(--glow));
+}
+
+.brand-name .plus {
+  color: var(--violet);
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: var(--muted);
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.nav-link.active {
+  color: var(--text);
+  background: linear-gradient(120deg, rgba(77, 143, 255, 0.65), rgba(212, 239, 255, 0.28));
+  box-shadow: 0 0 0 1px rgba(212, 239, 255, 0.45);
+}
+
+.profile {
+  position: relative;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  padding: 4px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.profile-name {
+  font-size: 13px;
+}
+
+.caret {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.profile-menu button {
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.profile-menu button:hover {
+  background: rgba(142, 212, 255, 0.14);
+}
+
+@media (max-width: 720px) {
+  .topnav {
+    border-radius: 20px;
+    grid-template-columns: 1fr;
+  }
+  .profile-name {
+    display: none;
+  }
+}

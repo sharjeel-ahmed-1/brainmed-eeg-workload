@@ -1,0 +1,180 @@
+:root {
+  /* Dark base + light accent combo (not a washed-out light theme) */
+  --bg: #07131f;
+  --bg-elevated: #0b1a2a;
+  --surface: #102033;
+  --surface-2: #173048;
+  --surface-light: #2a4a66;
+  --cyan: #9ad8ff;
+  --cyan-bright: #d4efff;
+  --blue: #4d8fff;
+  --violet: #9aa8ff;
+  --mint: #7ae0c0;
+  --amber: #ff9f45;
+  --amber-soft: #ffd4a8;
+  --green: #6ed9a8;
+  --orange: #ff9f45;
+  --red: #f07a6a;
+  --text: #f7fbff;
+  --muted: #8fa6bd;
+  --border: rgba(154, 216, 255, 0.26);
+  --border-light: rgba(212, 239, 255, 0.45);
+  --glow: rgba(154, 216, 255, 0.35);
+  --radius: 18px;
+  --nav-h: 64px;
+  --font: "Michroma", system-ui, sans-serif;
+  --font-display: "Michroma", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  letter-spacing: 0.03em;
+  color: var(--text);
+  /* Deep navy base + bright cyan / amber / mint light pools */
+  background:
+    radial-gradient(920px 480px at 82% 22%, rgba(77, 143, 255, 0.32), transparent 55%),
+    radial-gradient(760px 440px at 10% 78%, rgba(255, 159, 69, 0.16), transparent 50%),
+    radial-gradient(640px 380px at 55% 100%, rgba(122, 224, 192, 0.1), transparent 52%),
+    linear-gradient(175deg, #050e18 0%, var(--bg) 40%, #0a1828 70%, #06101a 100%);
+  background-attachment: fixed;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.glass {
+  /* Dark glass body + light top edge / soft cyan rim */
+  background: linear-gradient(
+    155deg,
+    rgba(42, 74, 102, 0.55) 0%,
+    rgba(16, 32, 51, 0.88) 42%,
+    rgba(12, 26, 42, 0.92) 100%
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(212, 239, 255, 0.18),
+    inset 0 -1px 0 rgba(255, 159, 69, 0.06);
+  backdrop-filter: blur(16px);
+}
+
+.demo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff4e6;
+  background: linear-gradient(120deg, rgba(255, 159, 69, 0.35), rgba(255, 212, 168, 0.12));
+  border: 1px solid rgba(255, 212, 168, 0.5);
+}
+
+.recorded-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f0f9ff;
+  background: linear-gradient(120deg, rgba(77, 143, 255, 0.35), rgba(154, 216, 255, 0.12));
+  border: 1px solid rgba(154, 216, 255, 0.5);
+}
+
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #e8fff4;
+  background: linear-gradient(120deg, rgba(110, 217, 168, 0.4), rgba(77, 143, 255, 0.15));
+  border: 1px solid rgba(122, 224, 192, 0.55);
+}
+
+.methods-banner {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 159, 69, 0.35);
+  background: linear-gradient(120deg, rgba(255, 159, 69, 0.12), rgba(7, 19, 31, 0.85));
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.methods-banner strong {
+  color: var(--text);
+}
+
+.app-shell {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 78px 16px 28px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #102033 0%, #2a4a66 50%, #102033 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 12px;
+  min-height: 120px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,62 @@
+STAGE cache: reusing /Users/abc/Downloads/eeg-workload/data/cache/epoch_features.npz
+STAGE cache done: 0.0s
+=== PIPELINE AUDIT ===
+Subjects: 45
+Cache reused: True
+Epochs before rejection: 1491
+Epochs dropped (amplitude): 0 (0.0%)
+Epochs after rejection: 1491
+Feature dim: 84
+NaN-containing epoch rows removed: 0
+Inf-containing epoch rows removed: 0
+Epochs/subject after: min=25 max=37 mean=33.1
+Amplitude range (pre-reject, across subjects): global_min=nan global_max=nan
+Label↔subject alignment: OK (len(labels)=45 == N_SUBJECTS=45)
+Per-subject (idx, label, epochs_kept, dropped, amp_min, amp_max):
+  s=00 y=1 kept=30 drop=00 amp=[nan, nan]
+  s=01 y=0 kept=37 drop=00 amp=[nan, nan]
+  s=02 y=0 kept=33 drop=00 amp=[nan, nan]
+  s=03 y=0 kept=37 drop=00 amp=[nan, nan]
+  s=04 y=1 kept=36 drop=00 amp=[nan, nan]
+  s=05 y=0 kept=32 drop=00 amp=[nan, nan]
+  s=06 y=1 kept=27 drop=00 amp=[nan, nan]
+  s=07 y=1 kept=35 drop=00 amp=[nan, nan]
+  s=08 y=0 kept=35 drop=00 amp=[nan, nan]
+  s=09 y=0 kept=31 drop=00 amp=[nan, nan]
+  s=10 y=0 kept=33 drop=00 amp=[nan, nan]
+  s=11 y=1 kept=32 drop=00 amp=[nan, nan]
+  s=12 y=1 kept=37 drop=00 amp=[nan, nan]
+  s=13 y=0 kept=36 drop=00 amp=[nan, nan]
+  s=14 y=1 kept=33 drop=00 amp=[nan, nan]
+  s=15 y=1 kept=32 drop=00 amp=[nan, nan]
+  s=16 y=1 kept=36 drop=00 amp=[nan, nan]
+  s=17 y=0 kept=35 drop=00 amp=[nan, nan]
+  s=18 y=1 kept=32 drop=00 amp=[nan, nan]
+  s=19 y=0 kept=31 drop=00 amp=[nan, nan]
+  s=20 y=1 kept=26 drop=00 amp=[nan, nan]
+  s=21 y=0 kept=36 drop=00 amp=[nan, nan]
+  s=22 y=0 kept=29 drop=00 amp=[nan, nan]
+  s=23 y=1 kept=25 drop=00 amp=[nan, nan]
+  s=24 y=0 kept=37 drop=00 amp=[nan, nan]
+  s=25 y=1 kept=34 drop=00 amp=[nan, nan]
+  s=26 y=0 kept=36 drop=00 amp=[nan, nan]
+  s=27 y=1 kept=36 drop=00 amp=[nan, nan]
+  s=28 y=0 kept=31 drop=00 amp=[nan, nan]
+  s=29 y=1 kept=30 drop=00 amp=[nan, nan]
+  s=30 y=0 kept=25 drop=00 amp=[nan, nan]
+  s=31 y=1 kept=37 drop=00 amp=[nan, nan]
+  s=32 y=0 kept=32 drop=00 amp=[nan, nan]
+  s=33 y=1 kept=32 drop=00 amp=[nan, nan]
+  s=34 y=1 kept=32 drop=00 amp=[nan, nan]
+  s=35 y=0 kept=37 drop=00 amp=[nan, nan]
+  s=36 y=1 kept=33 drop=00 amp=[nan, nan]
+  s=37 y=0 kept=37 drop=00 amp=[nan, nan]
+  s=38 y=0 kept=37 drop=00 amp=[nan, nan]
+  s=39 y=1 kept=36 drop=00 amp=[nan, nan]
+  s=40 y=1 kept=29 drop=00 amp=[nan, nan]
+  s=41 y=1 kept=34 drop=00 amp=[nan, nan]
+  s=42 y=1 kept=29 drop=00 amp=[nan, nan]
+  s=43 y=1 kept=34 drop=00 amp=[nan, nan]
+  s=44 y=1 kept=37 drop=00 amp=[nan, nan]
+
+STAGE baseline PRIMARY 2class LOSO…

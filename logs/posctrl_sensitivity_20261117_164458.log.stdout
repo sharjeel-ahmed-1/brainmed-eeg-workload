@@ -1,0 +1,4 @@
+MODE: --only-posctrl (skip baseline/perm/variants)
+STAGE positive control + sensitivity…
+=== POSITIVE CONTROL (alpha boost → class 1) ===
+Primary check: alpha gain=8× (+700% vs original alpha component) for 25 class-1 subjects

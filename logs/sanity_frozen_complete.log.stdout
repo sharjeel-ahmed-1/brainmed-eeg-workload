@@ -1,0 +1,132 @@
+Protocol hash: 8c63a125867f3212 → cache epoch_features_8c63a125867f3212.npz
+STAGE cache: reusing /Users/abc/Downloads/eeg-workload/data/cache/epoch_features_8c63a125867f3212.npz
+STAGE cache done: 0.0s
+=== PIPELINE AUDIT ===
+Subjects: 45
+Cache reused: True
+Protocol hash: 8c63a125867f3212
+Epoch removal steps:
+  1) fixed-length: floor(150/4)=37 epochs/subject
+  2) flat/zero (RAW epochs): zero sample OR ≥128 identical samples
+  3) amplitude (FILTERED epochs): median+5.0*1.4826*MAD
+  4) non-finite features: ASSERT (no silent drop)
+  No subject exclusions.
+Epochs after fixed-length (sum): 1665
+n_dropped_flat: 14
+n_dropped_amp: 181
+n_dropped_nonfinite: 0
+Epochs kept (sum): 1470
+Feature dim: 84
+Amplitude range (post-flat, pre-amp-reject filtered data): global_min=-5674 global_max=5888
+Label↔subject alignment: OK (len(labels)=45 == N_SUBJECTS=45)
+Per-subject: fixed | drop_flat | drop_amp | frac_drop | kept | amp[min,max]
+  s=00 y=1 fixed=37 drop_flat=00 drop_amp=07 frac_drop=0.19 kept=30 amp=[-1275, 2580]
+  s=01 y=0 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-677.6, 858.3]
+  s=02 y=0 fixed=37 drop_flat=00 drop_amp=04 frac_drop=0.11 kept=33 amp=[-287.3, 393.4]
+  s=03 y=0 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-842.4, 533.6]
+  s=04 y=1 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-332.9, 541.4]
+  s=05 y=0 fixed=37 drop_flat=00 drop_amp=05 frac_drop=0.14 kept=32 amp=[-721.4, 2992]
+  s=06 y=1 fixed=37 drop_flat=00 drop_amp=10 frac_drop=0.27 kept=27 amp=[-1534, 3015]
+  s=07 y=1 fixed=37 drop_flat=00 drop_amp=02 frac_drop=0.05 kept=35 amp=[-633.2, 1197]
+  s=08 y=0 fixed=37 drop_flat=00 drop_amp=02 frac_drop=0.05 kept=35 amp=[-524.4, 854.8]
+  s=09 y=0 fixed=37 drop_flat=00 drop_amp=06 frac_drop=0.16 kept=31 amp=[-922.5, 1655]
+  s=10 y=0 fixed=37 drop_flat=00 drop_amp=04 frac_drop=0.11 kept=33 amp=[-644.7, 1050]
+  s=11 y=1 fixed=37 drop_flat=00 drop_amp=05 frac_drop=0.14 kept=32 amp=[-5078, 5781]
+  s=12 y=1 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-234.1, 263.1]
+  s=13 y=0 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-219.2, 471]
+  s=14 y=1 fixed=37 drop_flat=00 drop_amp=04 frac_drop=0.11 kept=33 amp=[-1080, 1626]
+  s=15 y=1 fixed=37 drop_flat=00 drop_amp=05 frac_drop=0.14 kept=32 amp=[-1630, 1547]
+  s=16 y=1 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-321.6, 818.2]
+  s=17 y=0 fixed=37 drop_flat=00 drop_amp=02 frac_drop=0.05 kept=35 amp=[-326.1, 3349]
+  s=18 y=1 fixed=37 drop_flat=00 drop_amp=05 frac_drop=0.14 kept=32 amp=[-1276, 2349]
+  s=19 y=0 fixed=37 drop_flat=00 drop_amp=06 frac_drop=0.16 kept=31 amp=[-3921, 2260]
+  s=20 y=1 fixed=37 drop_flat=00 drop_amp=11 frac_drop=0.30 kept=26 amp=[-1758, 3378]
+  s=21 y=0 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-3184, 1147]
+  s=22 y=0 fixed=37 drop_flat=00 drop_amp=08 frac_drop=0.22 kept=29 amp=[-972.4, 2630]
+  s=23 y=1 fixed=37 drop_flat=03 drop_amp=10 frac_drop=0.35 kept=24 amp=[-2273, 5040]
+  s=24 y=0 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-1317, 1750]
+  s=25 y=1 fixed=37 drop_flat=00 drop_amp=03 frac_drop=0.08 kept=34 amp=[-1445, 2152]
+  s=26 y=0 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-425.5, 313.2]
+  s=27 y=1 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-1442, 3442]
+  s=28 y=0 fixed=37 drop_flat=00 drop_amp=06 frac_drop=0.16 kept=31 amp=[-1526, 3126]
+  s=29 y=1 fixed=37 drop_flat=00 drop_amp=07 frac_drop=0.19 kept=30 amp=[-1185, 2101]
+  s=30 y=0 fixed=37 drop_flat=03 drop_amp=10 frac_drop=0.35 kept=24 amp=[-5674, 5888]
+  s=31 y=1 fixed=37 drop_flat=06 drop_amp=12 frac_drop=0.49 kept=19 amp=[-3640, 3868]
+  s=32 y=0 fixed=37 drop_flat=01 drop_amp=04 frac_drop=0.14 kept=32 amp=[-1445, 1312]
+  s=33 y=1 fixed=37 drop_flat=00 drop_amp=05 frac_drop=0.14 kept=32 amp=[-2723, 2562]
+  s=34 y=1 fixed=37 drop_flat=00 drop_amp=05 frac_drop=0.14 kept=32 amp=[-642.3, 3219]
+  s=35 y=0 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-2398, 2194]
+  s=36 y=1 fixed=37 drop_flat=00 drop_amp=04 frac_drop=0.11 kept=33 amp=[-1950, 1445]
+  s=37 y=0 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-439, 597]
+  s=38 y=0 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-177.3, 314.1]
+  s=39 y=1 fixed=37 drop_flat=00 drop_amp=01 frac_drop=0.03 kept=36 amp=[-432.2, 417.3]
+  s=40 y=1 fixed=37 drop_flat=01 drop_amp=08 frac_drop=0.24 kept=28 amp=[-1295, 1669]
+  s=41 y=1 fixed=37 drop_flat=00 drop_amp=03 frac_drop=0.08 kept=34 amp=[-433.2, 658.4]
+  s=42 y=1 fixed=37 drop_flat=00 drop_amp=08 frac_drop=0.22 kept=29 amp=[-1434, 3032]
+  s=43 y=1 fixed=37 drop_flat=00 drop_amp=03 frac_drop=0.08 kept=34 amp=[-1883, 2493]
+  s=44 y=1 fixed=37 drop_flat=00 drop_amp=00 frac_drop=0.00 kept=37 amp=[-229.8, 283]
+Subjects with >50% epochs dropped: none (still included; no subject exclusions)
+
+=== RAW QC (exact zeros + flat segments) ===
+flat = run of identical samples length>=8 on any channel
+Handling: NOT specially rejected today; bandpass+avg-ref attenuates DC/flats; amp rejection uses FILTERED epoch PTP (low-PTP flats are NOT dropped by amp rule).
+  s  n_zero pct_zero flat_runs max_flat flat_samp flag
+  0       0    0.000         4      111       314 HAS_FLAT
+  1       0    0.000         0        0         0 -
+  2       0    0.000         0        0         0 -
+  3       0    0.000         0        0         0 -
+  4       0    0.000         0        0         0 -
+  5       0    0.000         1       10        10 HAS_FLAT
+  6       0    0.000         1       39        39 HAS_FLAT
+  7       0    0.000         0        0         0 -
+  8       0    0.000         0        0         0 -
+  9       0    0.000         1       13        13 HAS_FLAT
+ 10       0    0.000         0        0         0 -
+ 11       0    0.000         7       77       260 HAS_FLAT
+ 12       0    0.000         2       13        25 HAS_FLAT
+ 13       0    0.000         2       10        19 HAS_FLAT
+ 14       0    0.000         0        0         0 -
+ 15       0    0.000         0        0         0 -
+ 16       0    0.000         0        0         0 -
+ 17       0    0.000         0        0         0 -
+ 18       0    0.000         0        0         0 -
+ 19       0    0.000         1        8         8 HAS_FLAT
+ 20       0    0.000         2       25        35 HAS_FLAT
+ 21       0    0.000         0        0         0 -
+ 22       0    0.000         0        0         0 -
+ 23       0    0.000         9      254      1039 HAS_FLAT,HEAVY_FLAT
+ 24       0    0.000         0        0         0 -
+ 25       0    0.000         1       10        10 HAS_FLAT
+ 26       0    0.000         0        0         0 -
+ 27       0    0.000         2       44        64 HAS_FLAT
+ 28       0    0.000         1       11        11 HAS_FLAT
+ 29       0    0.000         3       14        33 HAS_FLAT
+ 30       6    0.002        79      421      5653 HAS_ZERO,HAS_FLAT,HEAVY_FLAT
+ 31       0    0.000        19      240      1789 HAS_FLAT,HEAVY_FLAT
+ 32       0    0.000         3      238       307 HAS_FLAT
+ 33       0    0.000         0        0         0 -
+ 34       0    0.000         0        0         0 -
+ 35       0    0.000         0        0         0 -
+ 36       0    0.000         0        0         0 -
+ 37       0    0.000         0        0         0 -
+ 38       0    0.000         0        0         0 -
+ 39       0    0.000         0        0         0 -
+ 40       0    0.000        40      197      2949 HAS_FLAT,HEAVY_FLAT
+ 41       0    0.000         0        0         0 -
+ 42       0    0.000         0        0         0 -
+ 43       0    0.000         0        0         0 -
+ 44       0    0.000         0        0         0 -
+Subjects with zero or flat flags: 18/45
+STAGE raw QC done: 16.2s
+STAGE baseline PRIMARY 2class LOSO…
+=== BASELINE RF | PRIMARY 2class ===
+Baselines: majority-class acc=0.556 (label=1) | chance=0.500
+Pooled confusion (rows=true, cols=pred, labels=[0, 1]):
+[[ 4 16]
+ [13 12]]
+Accuracy 0.356 | balanced accuracy 0.340 | Wilson 95% CI [0.232, 0.502] (k=16/45)
+Per-class recall: 0=0.200, 1=0.480
+STAGE baseline PRIMARY done: 113.0s
+STAGE baseline SECONDARY 3class LOSO…
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 2 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

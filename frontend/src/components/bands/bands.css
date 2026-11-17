@@ -1,0 +1,181 @@
+.band-panel {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  height: 100%;
+}
+
+.band-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.band-panel-head h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.band-panel-head .tiny {
+  margin: 2px 0 0;
+}
+
+.band-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.range-select {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.band-row {
+  display: grid;
+  grid-template-columns: 88px 1fr 58px;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.band-row-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.band-row-label strong {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.band-hz {
+  text-align: right;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.band-hz small {
+  font-size: 9px;
+}
+
+.freq-card {
+  text-align: left;
+  padding: 12px;
+  color: var(--text);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  min-height: 148px;
+  display: flex;
+  flex-direction: column;
+}
+
+.freq-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(54, 217, 245, 0.5);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(54, 217, 245, 0.12);
+}
+
+.freq-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.freq-title {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.freq-symbol {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.freq-info {
+  margin-left: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.freq-name {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+  color: var(--muted);
+}
+
+.freq-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
+.freq-value small {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.freq-range {
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.freq-mini {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 8, 14, 0.72);
+  display: grid;
+  place-items: center;
+  z-index: 80;
+  padding: 16px;
+}
+
+.modal {
+  width: min(520px, 100%);
+  padding: 18px;
+}
+
+.modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal header h3 {
+  margin: 0;
+}
+
+.modal header button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 12px;
+}

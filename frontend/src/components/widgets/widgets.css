@@ -1,0 +1,147 @@
+.float-card {
+  padding: 12px;
+  border-radius: 16px;
+}
+
+.float-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+.concentration-card {
+  width: 100%;
+}
+
+.conc-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.conc-symbol {
+  font-size: 26px;
+  color: var(--cyan);
+  line-height: 1;
+}
+
+.conc-hz {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b8fff0;
+}
+
+.live-dot i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5ecf7a;
+  box-shadow: 0 0 8px #5ecf7a;
+  display: block;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.acq {
+  font-size: 10px;
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.target-card {
+  text-align: center;
+  width: 100%;
+}
+
+.target-pct {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1.1;
+}
+
+.target-btn {
+  margin-top: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: linear-gradient(120deg, #3d8f5a, #5ecf7a);
+  color: #04140a;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.target-form {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.target-form input {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px;
+  width: 100%;
+}
+
+.target-form button {
+  border: 0;
+  border-radius: 8px;
+  background: var(--cyan);
+  color: #042028;
+  padding: 6px 10px;
+}
+
+.general-card {
+  width: 100%;
+  height: 100%;
+}
+
+.general-stats {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.progress-track {
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+}
+
+.tiny {
+  font-size: 11px;
+}

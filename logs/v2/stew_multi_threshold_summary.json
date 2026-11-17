@@ -1,0 +1,35 @@
+{
+  "protocol": "v2_stew_multi_threshold",
+  "note": "Descriptive sensitivity; still one label per subject. Does not replace RESULTS.md.",
+  "n_subjects": 45,
+  "ratings_minmax": [
+    4,
+    9
+  ],
+  "thresholds": {
+    "6": {
+      "threshold": 6,
+      "n_high": 32,
+      "n_low": 13,
+      "majority_acc": 0.7111111111111111,
+      "loso_acc": 0.7111111111111111,
+      "loso_bal_acc": 0.5228365384615384
+    },
+    "7": {
+      "threshold": 7,
+      "n_high": 25,
+      "n_low": 20,
+      "majority_acc": 0.5555555555555556,
+      "loso_acc": 0.35555555555555557,
+      "loso_bal_acc": 0.33999999999999997
+    },
+    "8": {
+      "threshold": 8,
+      "n_high": 14,
+      "n_low": 31,
+      "majority_acc": 0.6888888888888889,
+      "loso_acc": 0.6888888888888889,
+      "loso_bal_acc": 0.5
+    }
+  }
+}
