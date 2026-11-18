@@ -175,7 +175,7 @@ export function OverviewPage() {
               }
             }}
           >
-            {liveBusy ? "Replaying…" : "LIVE replay"}
+            {liveBusy ? "Replaying…" : "File replay (simulated live)"}
           </button>
         </div>
       </div>

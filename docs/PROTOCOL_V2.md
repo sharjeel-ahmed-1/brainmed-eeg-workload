@@ -52,7 +52,7 @@ Never tune on the outer test subject.
 
 - API modes: `demo_all_subject` vs `loso_held_out` (see `src/predict.py` / API).
 - UI banners: null v1 LOSO; DEMO lifestyle; Hz proxies.
-- Live path: STEW replay stream (`/api/live/replay`) before real headset.
+- File replay (simulated live): STEW window stream (`/api/live/replay`) — not a headset.
 - **Within-subject calibration** (`src/calibrate.py`):
   - `POST /api/calibrate/stew/{id}` — first epochs=low, last=high; score middle when possible
   - `POST /api/calibrate/upload` — real baseline + task FIF/EDF

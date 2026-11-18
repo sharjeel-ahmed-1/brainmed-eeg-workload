@@ -1,16 +1,16 @@
-# Project Report — BrainMed+ / STEW EEG Cognitive Workload
+# Project Report — BrainMed+ / EEG Workload Evaluation Toolkit
 
-**Title:** Subject-wise EEG workload estimation (STEW) with honest LOSO evaluation and BrainMed+ neuroadaptive dashboard  
+**Title:** BrainMed+ — EEG Workload Evaluation Toolkit (research prototype)  
 **Type:** Research / internship portfolio prototype  
-**Primary claim:** Methods rigor + transparent null result; UI is a demo of interaction design, not proof of decoding.
+**Primary claim:** Subject-wise LOSO + transparent under-majority STEW result; UI demos interaction design, not clinical decoding.
 
 ---
 
 ## 1. Executive summary
 
-This project estimates cognitive workload from EEG using the **STEW** dataset, evaluates models with **leave-one-subject-out (LOSO)** only (no random epoch splits), and ships a **BrainMed+** React + FastAPI dashboard plus a legacy Streamlit demo.
+This project evaluates cognitive-workload labels from EEG using the **STEW** dataset, with **leave-one-subject-out (LOSO)** only (no random epoch splits), and ships a **BrainMed+** React + FastAPI dashboard (research prototype) plus a legacy Streamlit demo.
 
-Under a **frozen** preprocess → band-power → Random Forest protocol, primary 2-class LOSO accuracy was **0.356** (majority baseline **0.556**). Permutation tests did not support above-chance decoding. A positive control (α×8) **passed**, showing the pipeline can detect injected spectral change. The product UI therefore labels lifestyle charts as **DEMO** and states the null LOSO finding honestly.
+Under a **frozen** preprocess → band-power → Random Forest protocol, primary 2-class LOSO accuracy was **0.356** (majority baseline **0.556**). With **one label per subject**, effective n = **45** subject-level decisions — an **under-powered** cross-subject setup with high variance. Permutation p_acc ≈ 0.98. A positive control (α×8) **passed**, showing the pipeline can detect injected spectral change. The UI labels lifestyle charts as **DEMO** and states the STEW LOSO finding in-product.
 
 ---
 
@@ -20,7 +20,7 @@ Under a **frozen** preprocess → band-power → Random Forest protocol, primary
 |------|-------------|
 | Research | Estimate high vs low cognitive workload from EEG with subject-generalization |
 | Methods | Freeze protocol; report failures; permutation + positive control |
-| Product | Neuroadaptive-style dashboard (BrainMed+) for reports, bands, 3D brain |
+| Product | Dashboard UI (BrainMed+) for reports, bands, 3D brain — research prototype |
 | Honesty | No inflated accuracy claims; demo model ≠ held-out LOSO model |
 
 ---
@@ -96,10 +96,10 @@ Config: `config.py` (paths, `SEED`, bands, reject thresholds). No hardcoded data
 
 - `StandardScaler` + `RandomForestClassifier(n_estimators=300, class_weight="balanced", random_state=42)` inside **sklearn Pipeline** (scaler fit on train folds only)
 
-**Split (non-negotiable)**
+**Split**
 
 - **Leave-one-subject-out**; subject decision = **mean epoch probability**  
-- Never random-split epochs
+- Never random-split epochs for the primary claim
 
 **Sanity**
 

@@ -36,8 +36,9 @@ from src.predict import (
 from src.report_viz import mean_band_profile, split_features
 
 LOSO_NULL_MSG = (
-    "PRIMARY LOSO was null (acc 0.356 < majority 0.556; perm p≈0.98). "
-    "Pipeline score is not a clinical / LOSO-validated product claim."
+    "PRIMARY STEW LOSO acc 0.356 < majority 0.556 (perm p≈0.98); "
+    "n=45 subject-level labels → under-powered cross-subject protocol. "
+    "Not a clinical product claim."
 )
 DEMO_MODEL_MSG = (
     "Model mode demo_all_subject: RF fit on all 45 STEW subjects — not held-out."
@@ -55,7 +56,11 @@ BAND_META = {
     "gamma": {"label": "Concentration", "symbol": "γ", "range_hz": (30.0, 40.0), "center_hz": 35.0},
 }
 
-app = FastAPI(title="BrainMed+ EEG API", version="1.0.0")
+app = FastAPI(
+    title="BrainMed+ EEG API",
+    description="EEG Workload Evaluation Toolkit (research prototype) — not a clinical product.",
+    version="1.0.0",
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=(
@@ -398,7 +403,8 @@ def live_replay(
     max_windows: int = Query(40, ge=1, le=200),
 ):
     """
-    Fake LIVE path: replay STEW subject as successive windows (no headset).
+    File replay (simulated live): replay STEW subject as successive windows.
+    Not a real-time headset stream.
     """
     if subject_id < 0 or subject_id >= config.N_SUBJECTS:
         raise HTTPException(404, f"subject_id out of range 0..{config.N_SUBJECTS - 1}")
@@ -444,13 +450,18 @@ def live_replay(
             "source": "live_replay",
             "live": True,
             "simulated": True,
+            "mode": "file_replay_simulated_live",
             "subject_idx": subject_id,
             "window_sec": window_sec,
             "hop_sec": hop_sec,
             "n_windows": len(windows),
             "windows": windows,
             "honest": {
-                "message": "LIVE = STEW file replay, not a headset stream. " + LOSO_NULL_MSG,
+                "message": (
+                    "File replay (simulated live) — STEW recording windows, "
+                    "not a real-time headset stream. "
+                    + LOSO_NULL_MSG
+                ),
             },
         }
     except Exception as e:

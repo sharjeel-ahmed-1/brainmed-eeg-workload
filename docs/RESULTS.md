@@ -58,18 +58,19 @@ Demo model is fit on **all** subjects. UI simplifies when predicted class = high
 ## Limitations
 
 - Consumer / Emotiv-class EEG; units undocumented in `.mat`
-- One rating label per subject (coarse, possible noise)
+- **One rating label per subject** → subject-level LOSO has effective **n = 45** decisions (high variance). Primary acc **0.356 < majority 0.556** with perm p ≈ 0.98 is best read as an **under-powered subject-level protocol** under this label scheme, not a standalone “the RF architecture is broken” claim (α×8 positive control still passed)
 - Channel montage assumed for regional features / maps only
-- No live acquisition; no LOSO hyperparameter search (by design)
-- Null primary accuracy is a methods result, not a product claim
+- No headset acquisition; `/api/live/replay` is **file replay (simulated live)** only
+- No LOSO hyperparameter search on the frozen primary (by design)
+- Primary numbers are a methods / evaluation result, not a product claim
 
 ### Remediation (does not change the table above)
 
 See [`PROTOCOL_V2.md`](PROTOCOL_V2.md), [`RESULTS_v2.md`](RESULTS_v2.md), [`MONTAGE_AND_UNITS.md`](MONTAGE_AND_UNITS.md), [`NEWDATASET_SUMMARY.md`](NEWDATASET_SUMMARY.md).
-Product paths: API `model_mode=loso_held_out`, `/api/live/replay`, methods banner.
+Product paths: API `model_mode=loso_held_out`, `/api/live/replay` (file replay), methods banner.
 
 ## Internship / portfolio takeaways
 
-1. Subject-wise evaluation + permutation + positive control beat a flashy but leaky accuracy.
-2. Reporting failures (variants A/B, null LOSO) is part of rigorous computational neuroscience / BCI practice.
-3. Neuroadaptive UI can still be prototyped honestly when the classifier is weak — as a demo of the *interaction* concept, not as proof of decoding.
+1. Subject-wise evaluation + permutation + positive control is harder to game than a leaky random-split accuracy.
+2. Reporting under-majority LOSO with baselines and controls is part of transparent BCI / methods practice.
+3. A neuroadaptive-style UI can still demo *interaction* when the cross-subject classifier is weak — without claiming decoding proof.

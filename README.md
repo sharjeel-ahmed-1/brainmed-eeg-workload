@@ -1,6 +1,7 @@
-# BrainMed+ — EEG Cognitive Workload
+# BrainMed+ — EEG Workload Evaluation Toolkit *(research prototype)*
 
-Professional research prototype for **subject-wise EEG cognitive-workload estimation**, with an honest LOSO evaluation protocol and the **BrainMed+** clinical-style dashboard.
+Subject-wise EEG cognitive-workload **evaluation toolkit** with a dashboard UI.  
+Not a clinical or consumer medical product — research / portfolio prototype only.
 
 | Layer | Stack |
 |-------|--------|
@@ -9,7 +10,18 @@ Professional research prototype for **subject-wise EEG cognitive-workload estima
 | Dashboard | React + Vite + Three.js (`frontend/`) |
 | Legacy demo | Streamlit (`app.py`) |
 
-**GitHub:** [sharjeel-ahmed-1/brainmed-eeg-workload](https://github.com/sharjeel-ahmed-1/brainmed-eeg-workload)
+**GitHub:** [sharjeel-ahmed-1/brainmed-eeg-workload](https://github.com/sharjeel-ahmed-1/brainmed-eeg-workload)  
+**Live demo:** [brainmed-eeg-workload.onrender.com](https://brainmed-eeg-workload.onrender.com) — free Render host; **first load after idle ~30–60 s** (cold start / wake).
+
+---
+
+## Evaluation practices (what the protocol actually does)
+
+- Split by **subject** (LeaveOneGroupOut / GroupKFold) — never random-split epochs for the primary claim  
+- Scaler / encoder / feature steps inside an **sklearn Pipeline** (fit on train folds only)  
+- Report accuracy, baselines (majority), and (where logged) bal-acc / macro-F1 / confusion  
+- Fixed seed from `config.SEED`; permutation test + α-boost positive control on STEW  
+- Frozen protocol: no retuning on outer LOSO after seeing primary numbers  
 
 ---
 
@@ -17,24 +29,18 @@ Professional research prototype for **subject-wise EEG cognitive-workload estima
 
 ```text
 brainmed-eeg-workload/
-├── README.md                 # This file
-├── requirements.txt
-├── config.py                 # STEW protocol constants (hashed with preprocess)
-├── config_ext.py             # Newdataset / montage notes (outside protocol hash)
-├── app.py                    # Streamlit demo
-├── docs/                     # Research documentation (methods, results, protocols)
-├── src/                      # Importable Python package (train, predict, API helpers)
-├── frontend/                 # BrainMed+ React application
-├── figures/                  # Interpretation plots
+├── README.md
+├── docs/                     # Methods, results, protocols
+├── src/                      # Train / predict / API / DB
+├── frontend/                 # Dashboard UI
+├── runtime_assets/           # STEW cache + model for Docker demo
 ├── logs/                     # Evaluation logs (v1 / v2)
-├── data/                     # Runtime data only (raw/cache/exports gitignored)
-├── models/                   # Trained joblib artifacts (gitignored)
-└── .gitignore
+└── …
 ```
 
 ---
 
-## Quick start — BrainMed+ UI
+## Quick start — UI
 
 ```bash
 # Terminal 1 — API
@@ -44,71 +50,54 @@ pip install -r requirements.txt
 uvicorn src.api_server:app --reload --port 8000
 
 # Terminal 2 — dashboard
-cd frontend
-npm install
-npm run dev
+cd frontend && npm install && npm run dev
 ```
 
 Open **http://127.0.0.1:5173**
 
 | Page | Purpose |
 |------|---------|
-| Overview | 3D brain, band proxies, DEMO lifestyle widgets |
-| Reports | Upload / STEW score (`demo_all_subject` or `loso_held_out`) + **within-subject calibration** |
-| My History | Cloud-synced session history (free SQLite / optional Postgres `DATABASE_URL`) |
+| Overview | 3D brain, band proxies, DEMO lifestyle widgets, **file replay (simulated live)** |
+| Reports | Upload / STEW score (`demo_all_subject` or `loso_held_out`) + within-subject calibration |
+| My History | Session history (SQLite by default; optional Postgres `DATABASE_URL`) |
 
-**Within-subject calibration** (best product angle while cross-subject LOSO is null): fit a personal baseline-vs-task model on one session, then score held-out epochs / new uploads. STEW uses a simulated first/last epoch split; real use is baseline+task file upload.
-
-```bash
-# STEW demo split (middle epochs scored)
-curl -X POST "http://127.0.0.1:8000/api/calibrate/stew/0?n_baseline=10&n_task=10"
-```
-
-Demo upload files (local): `data/exports/demo_upload_S00_raw.fif` (generate via `src.predict.export_stew_subject_fif`).
+Within-subject calibration: fit baseline-vs-task on one session (STEW first/last epoch split is simulated; or upload real baseline+task files).
 
 ---
 
-## Key results (logged)
+## Results summary (logged)
 
-| Evaluation | Acc | Notes |
-|------------|-----|--------|
-| STEW primary LOSO (`rating ≥ 7`) | **0.356** | Below majority 0.556; null under frozen protocol |
-| Newdataset AC1 Control vs Stress | **0.576** | Majority ~0.50; denser labels |
+| Track | Dataset | Label | LOSO acc | Majority |
+|-------|---------|-------|----------|----------|
+| v1 primary | STEW | rating ≥ 7 (2-class) | **0.356** | 0.556 |
+| v2-A | STEW | rating ≥ 6 | 0.711 | 0.711 |
+| v2-A | STEW | rating ≥ 7 | 0.356 | 0.556 |
+| v2-A | STEW | rating ≥ 8 | 0.689 | 0.689 |
+| v2-B RF | Newdataset AC1 | Control vs Stress | **0.576** | ~0.504 |
+| v2-B RF | Newdataset EO | Control vs Stress | 0.538 | 0.500 |
+| v2-B RF | Newdataset AC2 | Control vs Stress | 0.556 | ~0.508 |
+| v2-B RF | Newdataset AC3 | Control vs Stress | 0.544 | ~0.512 |
+| v2-B RF | Newdataset AC4 | Control vs Stress | 0.504 | ~0.504 |
+| v2-D Riemann | Newdataset AC1 | Control vs Stress | 0.544 | ~0.504 |
+| v2-D Riemann | Newdataset AC2 | Control vs Stress | **0.579** | ~0.508 |
 
-Full tables and limitations: [`docs/RESULTS.md`](docs/RESULTS.md), [`docs/RESULTS_v2.md`](docs/RESULTS_v2.md).
+Full write-ups: [`docs/RESULTS.md`](docs/RESULTS.md), [`docs/RESULTS_v2.md`](docs/RESULTS_v2.md).
 
-Honesty endpoints: `GET /api/methods`, `?model_mode=loso_held_out`, `GET /api/live/replay/{id}`.
+**STEW v1 read:** LOSO **below majority** (0.356 vs 0.556). With **one label per subject**, the effective sample size is **n = 45** subject-level decisions — high variance; treat as an **under-powered subject-level protocol**, not a polished “model failure” story. Permutation p_acc ≈ 0.98. Positive control (α×8) passed.
+
+Product honesty paths: `GET /api/methods`, `?model_mode=loso_held_out`, `GET /api/live/replay/{id}` (**file replay / simulated live**, not a headset stream).
 
 ---
 
-## Public demo (single URL)
-
-### Temporary (this Mac + Cloudflare quick tunnel)
-
-```bash
-cd frontend && npm run build && cd ..
-source .venv/bin/activate
-uvicorn src.api_server:app --host 127.0.0.1 --port 8000
-# other terminal:
-cloudflared tunnel --url http://127.0.0.1:8000
-```
-
-### Permanent (Docker → Render)
-
-`runtime_assets/` ships STEW cache + model + `.mat` for the live demo. Deploy with the included [`render.yaml`](render.yaml) / [`Dockerfile`](Dockerfile):
-
-1. Push this repo to GitHub.
-2. [Render](https://render.com) → **New** → **Blueprint** → select the repo (or Web Service + Docker).
-3. Free web service URL looks like `https://brainmed-eeg-workload.onrender.com` (sleeps when idle; first request may take ~30–60s).
-
-Local Docker smoke test:
+## Public demo (Render)
 
 ```bash
 docker build -t brainmed .
 docker run --rm -p 8000:8000 brainmed
 ```
 
-Same-origin `/api/*` + SPA from `frontend/dist`.
+Hosted: https://brainmed-eeg-workload.onrender.com  
+**First load after idle ~30–60 s.** Free tier may sleep; SQLite history can reset on cold instances unless you set a persistent `DATABASE_URL`.
 
 ---
 
@@ -117,25 +106,23 @@ Same-origin `/api/*` + SPA from `frontend/dist`.
 | Document | Description |
 |----------|-------------|
 | [`docs/PROJECT.md`](docs/PROJECT.md) | Frozen STEW protocol |
-| [`docs/RESULTS.md`](docs/RESULTS.md) | Primary LOSO write-up |
-| [`docs/RESULTS_v2.md`](docs/RESULTS_v2.md) | Multi-threshold + Control/Stress |
-| [`docs/PROTOCOL_V2.md`](docs/PROTOCOL_V2.md) | v2 research track |
-| [`docs/PROJECT_REPORT.md`](docs/PROJECT_REPORT.md) | Full project report |
-| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Phase checklist |
-| [`docs/NEWDATASET_SUMMARY.md`](docs/NEWDATASET_SUMMARY.md) | Second dataset inventory |
+| [`docs/RESULTS.md`](docs/RESULTS.md) | Primary LOSO write-up + limitations |
+| [`docs/RESULTS_v2.md`](docs/RESULTS_v2.md) | Multi-threshold + Control/Stress + Riemann |
+| [`docs/PROTOCOL_V2.md`](docs/PROTOCOL_V2.md) | v2 research tracks |
+| [`docs/PROJECT_REPORT.md`](docs/PROJECT_REPORT.md) | Longer project report |
 | [`docs/MONTAGE_AND_UNITS.md`](docs/MONTAGE_AND_UNITS.md) | Montage assumption + units |
 
 ---
 
-## Design principles
+## Design choices
 
-1. **Split by subject** — never random-split epochs.  
-2. **Frozen protocol** — no LOSO retuning after seeing numbers.  
-3. **Honest UI** — DEMO lifestyle labels; null LOSO stated in-product.  
-4. **Raw data not in git** — place STEW / newdataset under `data/raw/` locally.
+1. Subject splits only for primary claims.  
+2. Frozen STEW v1 table — later work logged separately under v2.  
+3. UI labels DEMO lifestyle charts; states LOSO findings in-product.  
+4. Raw datasets stay out of git — place under `data/raw/` locally.
 
 ---
 
 ## License / data
 
-Code is provided for portfolio and research reproduction. Datasets (STEW, Atiwiwat & Hemakom EEG-ECG) remain under their original licenses — download separately into `data/raw/`.
+Code is for portfolio and research reproduction. STEW and Atiwiwat & Hemakom EEG-ECG remain under their original licenses — download separately into `data/raw/`.

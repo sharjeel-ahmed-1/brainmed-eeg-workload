@@ -4,77 +4,48 @@ Frozen v1 primary stays in [`RESULTS.md`](RESULTS.md). Numbers below are from `l
 
 > Paths are under `docs/` in the repository root.
 
-## Track A — STEW multi-threshold LOSO
+## Combined results table
 
-| threshold | n_high | majority | LOSO acc | LOSO bal-acc |
-|-----------|--------|----------|----------|--------------|
-| ≥6 | 32 | 0.711 | **0.711** | 0.523 |
-| ≥7 | 25 | 0.556 | **0.356** | 0.340 |
-| ≥8 | 14 | 0.689 | **0.689** | 0.500 |
+| Track | Dataset | Label | LOSO acc | Majority |
+|-------|---------|-------|----------|----------|
+| v1 (see RESULTS.md) | STEW | rating ≥ 7 | **0.356** | 0.556 |
+| v2-A | STEW | rating ≥ 6 | 0.711 | 0.711 |
+| v2-A | STEW | rating ≥ 7 | 0.356 | 0.556 |
+| v2-A | STEW | rating ≥ 8 | 0.689 | 0.689 |
+| v2-B (band-power RF) | Newdataset EO | Control vs Stress | 0.538 | 0.500 |
+| v2-B | Newdataset AC1 | Control vs Stress | **0.576** | ~0.504 |
+| v2-B | Newdataset AC2 | Control vs Stress | 0.556 | ~0.508 |
+| v2-B | Newdataset AC3 | Control vs Stress | 0.544 | ~0.512 |
+| v2-B | Newdataset AC4 | Control vs Stress | 0.504 | ~0.504 |
+| v2-D (Riemann OAS→tangent→LR) | Newdataset EO | Control vs Stress | 0.531 | 0.500 |
+| v2-D | Newdataset AC1 | Control vs Stress | 0.544 | ~0.504 |
+| v2-D | Newdataset AC2 | Control vs Stress | **0.579** | ~0.508 |
+| v2-D | Newdataset AC3 | Control vs Stress | 0.496 | ~0.512 |
+| v2-D | Newdataset AC4 | Control vs Stress | 0.512 | ~0.504 |
+| v2-C | — | Product honesty / UI | — | — |
 
-Source: `logs/v2/STEW_MULTI_THRESHOLD.md`.
+Sources: `logs/v2/STEW_MULTI_THRESHOLD.md`, `NEWDATASET_ALL_CONDITIONS.md`, `RIEMANN_ALL_CONDITIONS.md`.
 
-## Track B — Newdataset Control vs Stress (all conditions)
+**Notes:** STEW subject-level LOSO has **n = 45** (one label/subject) → **under-powered** for strong cross-subject claims; primary 0.356 vs majority 0.556. Newdataset denser labels; best RF cell AC1 0.576, best Riemann AC2 0.579 — still near majority. Not a clinical claim. Newdataset QC: empty-padded columns → variable trimmed durations.
 
-Citation: Atiwiwat & Hemakom, Mendeley Data `s87jk3p5ws` (EEG **2000 Hz**; analysis cache **250 Hz**).  
-Recording-level LOSO (mean epoch proba per arm); subject held out.
-
-| condition | n_subjects | n_rec | majority | LOSO acc | LOSO bal-acc |
-|-----------|------------|-------|----------|----------|--------------|
-| EO | 65 | 130 | 0.500 | **0.538** | 0.538 |
-| AC1 | 65 | 125 | 0.504 | **0.576** | 0.575 |
-| AC2 | 65 | 126 | 0.508 | **0.556** | 0.557 |
-| AC3 | 65 | 125 | 0.512 | **0.544** | 0.545 |
-| AC4 | 65 | 123 | 0.504 | **0.504** | 0.505 |
-
-Source: `logs/v2/NEWDATASET_ALL_CONDITIONS.md`.
+Citation (newdataset): Atiwiwat & Hemakom, Mendeley Data `s87jk3p5ws` (EEG **2000 Hz**; analysis cache **250 Hz**). Recording-level LOSO (mean epoch proba per arm); subject held out.
 
 ### Reproduce
 
 ```bash
+python -m src.train_v2_stew_thresholds --thresholds 6,7,8 --log-dir logs/v2
 python -m src.cache_newdataset --conditions EO,AC1,AC2,AC3,AC4 --arms control,stress
 python -m src.train_v2_newdataset_all --conditions EO,AC1,AC2,AC3,AC4 --log-dir logs/v2
-```
-
-**Read:** Best lift on **AC1** (0.576 vs ~0.50 majority). Performance falls toward chance on harder AC3/AC4. EO pair is near chance (expected weak stress contrast at rest). Modest signal vs STEW null — still not a product/clinical claim. QC caveat: empty-padded columns → variable trimmed durations.
-
-## Track D — Riemannian OAS → tangent → LR (same labels as Track B)
-
-Source: `logs/v2/RIEMANN_ALL_CONDITIONS.md` (run log `logs/v2/riemann_train.log`).
-
-| condition | n_subjects | n_rec | majority | LOSO acc | LOSO bal-acc | macro-F1 |
-|-----------|------------|-------|----------|----------|--------------|----------|
-| AC1 | 65 | 125 | 0.504 | **0.544** | 0.544 | 0.543 |
-| EO | 65 | 130 | 0.500 | **0.531** | 0.531 | 0.526 |
-| AC2 | 65 | 126 | 0.508 | **0.579** | 0.581 | 0.577 |
-| AC3 | 65 | 125 | 0.512 | **0.496** | 0.496 | 0.496 |
-| AC4 | 65 | 123 | 0.504 | **0.512** | 0.513 | 0.511 |
-
-### vs Track B band-power RF
-
-| condition | RF acc (B) | Riemann acc (D) | Δ |
-|-----------|------------|-----------------|---|
-| AC1 | 0.576 | 0.544 | −0.032 |
-| EO | 0.538 | 0.531 | −0.007 |
-| AC2 | 0.556 | 0.579 | +0.023 |
-| AC3 | 0.544 | 0.496 | −0.048 |
-| AC4 | 0.504 | 0.512 | +0.008 |
-
-### Reproduce
-
-```bash
 python -m src.train_v2_riemann --conditions AC1,EO,AC2,AC3,AC4 --log-dir logs/v2
 ```
 
-**Read:** Riemannian geometry did **not** fix the cross-subject null. Best cell is AC2 **0.579** (slightly above RF); AC1 dropped vs Track B. All conditions remain near majority (~0.50–0.58). Honest conclusion: under this frozen stack, Control vs Stress is weakly separable across subjects whether features are band-power RF or SPD tangent+LR — not a product/clinical claim.
-
-## Track C — Product honesty / live replay
+## v2-C — Product honesty / file replay (simulated live)
 
 | Endpoint / UI | Purpose |
 |---------------|---------|
-| `GET /api/methods` | Null LOSO + montage/units |
+| `GET /api/methods` | STEW LOSO finding + montage/units |
 | `?model_mode=loso_held_out` | N−1 held-out score |
-| `GET /api/live/replay/{id}` | STEW file LIVE replay |
+| `GET /api/live/replay/{id}` | STEW **file replay (simulated live)** — not a headset stream |
 
 ## Montage / units
 
