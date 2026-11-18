@@ -126,11 +126,60 @@
 }
 
 @media (max-width: 720px) {
-  .topnav {
-    border-radius: 20px;
-    grid-template-columns: 1fr;
+  /* Keep a single compact row — stacking was covering Upload EEG / Overview controls */
+  .topnav-wrap {
+    top: max(8px, env(safe-area-inset-top));
+    padding: 0 10px;
   }
-  .profile-name {
+
+  .topnav {
+    border-radius: 16px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 6px;
+    padding: 7px 10px;
+    min-height: 48px;
+    align-items: center;
+  }
+
+  .brand {
+    gap: 4px;
+  }
+
+  .brand-name {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-links {
+    justify-content: flex-end;
+    gap: 2px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav-links::-webkit-scrollbar {
     display: none;
+  }
+
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .profile-name,
+  .caret {
+    display: none;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .profile-btn {
+    padding: 2px;
   }
 }

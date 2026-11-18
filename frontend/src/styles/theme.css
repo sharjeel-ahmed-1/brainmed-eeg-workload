@@ -146,7 +146,15 @@ button {
 .app-shell {
   max-width: 1360px;
   margin: 0 auto;
+  /* Desktop: fixed pill nav (~64px) + top offset */
   padding: 78px 16px 28px;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    /* Compact single-row mobile nav — leave clear space for toolbar / Upload EEG */
+    padding: calc(64px + env(safe-area-inset-top, 0px)) 12px 24px;
+  }
 }
 
 .muted {
