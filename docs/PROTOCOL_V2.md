@@ -59,6 +59,8 @@ Never tune on the outer test subject.
   - `POST /api/calibrate/{id}/score` — score new file with saved calibrator
   - Honest: personal relative score only; does **not** claim to fix cross-subject LOSO null
   - Reports UI: calibration panel + active `calib_id`
+  - **My History DB** (`src/db.py`): free SQLite by default; optional `DATABASE_URL` Postgres (Neon etc.)
+    - `GET/POST/DELETE /api/history` with `X-Client-Key` (browser UUID; not full auth)
 
 ## Track D — Riemannian geometry (feature upgrade on Track B labels)
 
