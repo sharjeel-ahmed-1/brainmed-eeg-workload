@@ -1,0 +1,10 @@
+# Permanent host on Render (free web service sleeps after idle; URL stays).
+services:
+  - type: web
+    name: brainmed-eeg-workload
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"

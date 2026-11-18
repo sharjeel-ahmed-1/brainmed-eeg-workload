@@ -83,7 +83,7 @@ Honesty endpoints: `GET /api/methods`, `?model_mode=loso_held_out`, `GET /api/li
 
 ## Public demo (single URL)
 
-Build the UI into FastAPI, then tunnel (Cloudflare quick tunnel needs your machine online):
+### Temporary (this Mac + Cloudflare quick tunnel)
 
 ```bash
 cd frontend && npm run build && cd ..
@@ -91,6 +91,21 @@ source .venv/bin/activate
 uvicorn src.api_server:app --host 127.0.0.1 --port 8000
 # other terminal:
 cloudflared tunnel --url http://127.0.0.1:8000
+```
+
+### Permanent (Docker → Render)
+
+`runtime_assets/` ships STEW cache + model + `.mat` for the live demo. Deploy with the included [`render.yaml`](render.yaml) / [`Dockerfile`](Dockerfile):
+
+1. Push this repo to GitHub.
+2. [Render](https://render.com) → **New** → **Blueprint** → select the repo (or Web Service + Docker).
+3. Free web service URL looks like `https://brainmed-eeg-workload.onrender.com` (sleeps when idle; first request may take ~30–60s).
+
+Local Docker smoke test:
+
+```bash
+docker build -t brainmed .
+docker run --rm -p 8000:8000 brainmed
 ```
 
 Same-origin `/api/*` + SPA from `frontend/dist`.

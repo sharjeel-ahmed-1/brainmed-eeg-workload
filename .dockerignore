@@ -1,0 +1,17 @@
+.venv
+.git
+.cursor
+**/__pycache__
+**/*.pyc
+**/.DS_Store
+frontend/node_modules
+frontend/dist
+data/raw/newdataset
+data/cache/newdataset
+logs
+figures
+.mplconfig
+*.log
+agent-transcripts
+.env
+.env.*
