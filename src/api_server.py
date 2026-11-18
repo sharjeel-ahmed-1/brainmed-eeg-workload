@@ -14,6 +14,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import config
 import config_ext
+from src.calibrate import (
+    CALIB_MSG,
+    calibrate_from_files,
+    calibrate_stew_subject,
+    load_calibrator,
+    score_with_calibrator,
+)
 from src.load import load_stew_labels, load_subject_raw
 from src.predict import (
     load_model,
@@ -34,6 +41,7 @@ DEMO_MODEL_MSG = (
 HELD_OUT_MSG = (
     "Model mode loso_held_out: RF fit on N−1 subjects; scored subject was left out of training."
 )
+CALIB_MODEL_MSG = CALIB_MSG
 
 BAND_META = {
     "delta": {"label": "Drowsiness", "symbol": "δ", "range_hz": (0.5, 4.0), "center_hz": 2.25},
@@ -133,13 +141,17 @@ def _report_from_predict(result: Dict[str, Any]) -> Dict[str, Any]:
             "message": LOSO_NULL_MSG
             + " "
             + (
-                HELD_OUT_MSG
+                CALIB_MODEL_MSG
+                if result.get("model_type") == "within_subject_calib"
+                else HELD_OUT_MSG
                 if result.get("model_type") == "loso_held_out"
                 else DEMO_MODEL_MSG
             ),
             "hz_proxy_note": "Band Hz values are relative-power proxies, not live hardware meters.",
             "units_note": "STEW .mat units undocumented; features use relative band power only.",
         },
+        "calib_id": result.get("calib_id"),
+        "calib": result.get("calib"),
     }
 
 
@@ -205,6 +217,7 @@ def methods_banner():
         "majority_acc": 0.556,
         "perm_p_acc": 0.980,
         "message": LOSO_NULL_MSG,
+        "calibration": CALIB_MSG,
         "montage": {
             "assumed": config_ext.MONTAGE_ASSUMED,
             "names": list(config.EMOTIV_CH_NAMES),
@@ -213,6 +226,85 @@ def methods_banner():
         "units": "arbitrary / undocumented in STEW .mat; relative power only",
         "lifestyle": "DEMO — not STEW diary labels",
     }
+
+
+@app.post("/api/calibrate/stew/{subject_id}")
+def calibrate_stew(
+    subject_id: int,
+    n_baseline: int = Query(10, ge=2, le=30),
+    n_task: int = Query(10, ge=2, le=30),
+):
+    """
+    Within-subject calib on one STEW subject: first epochs=low, last=high;
+    score middle held-out epochs when available.
+    """
+    if subject_id < 0 or subject_id >= config.N_SUBJECTS:
+        raise HTTPException(404, f"subject_id out of range 0..{config.N_SUBJECTS - 1}")
+    try:
+        result = calibrate_stew_subject(subject_id, n_baseline=n_baseline, n_task=n_task)
+        return _report_from_predict(result)
+    except ValueError as e:
+        raise HTTPException(400, str(e)) from e
+    except Exception as e:
+        raise HTTPException(500, f"{type(e).__name__}: {e}") from e
+
+
+@app.post("/api/calibrate/upload")
+async def calibrate_upload(
+    baseline: UploadFile = File(...),
+    task: UploadFile = File(...),
+):
+    """Fit calibrator on baseline (low) + task (high) uploads; score task file."""
+    allowed = {".edf", ".fif", ".bdf", ".set"}
+    b_suf = Path(baseline.filename or "baseline.fif").suffix.lower()
+    t_suf = Path(task.filename or "task.fif").suffix.lower()
+    if b_suf not in allowed or t_suf not in allowed:
+        raise HTTPException(400, "Supported: .edf .fif .bdf .set for both files")
+    try:
+        with tempfile.NamedTemporaryFile(suffix=b_suf, delete=False) as tb:
+            tb.write(await baseline.read())
+            b_path = Path(tb.name)
+        with tempfile.NamedTemporaryFile(suffix=t_suf, delete=False) as tt:
+            tt.write(await task.read())
+            t_path = Path(tt.name)
+        result = calibrate_from_files(b_path, t_path)
+        result["file_name"] = task.filename
+        if result.get("calib"):
+            result["calib"]["baseline_file"] = baseline.filename
+            result["calib"]["task_file"] = task.filename
+        return _report_from_predict(result)
+    except ValueError as e:
+        raise HTTPException(400, str(e)) from e
+    except Exception as e:
+        raise HTTPException(400, f"{type(e).__name__}: {e}") from e
+
+
+@app.get("/api/calibrate/{calib_id}")
+def get_calibrator(calib_id: str):
+    try:
+        _, meta = load_calibrator(calib_id)
+        return {"calib_id": calib_id, "meta": meta}
+    except FileNotFoundError as e:
+        raise HTTPException(404, str(e)) from e
+
+
+@app.post("/api/calibrate/{calib_id}/score")
+async def score_calibrated(calib_id: str, file: UploadFile = File(...)):
+    """Score a new upload with a saved within-subject calibrator."""
+    suffix = Path(file.filename or "upload.fif").suffix.lower()
+    if suffix not in {".edf", ".fif", ".bdf", ".set"}:
+        raise HTTPException(400, "Supported: .edf .fif .bdf .set")
+    try:
+        with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+            tmp.write(await file.read())
+            path = Path(tmp.name)
+        result = score_with_calibrator(calib_id, path)
+        result["file_name"] = file.filename
+        return _report_from_predict(result)
+    except FileNotFoundError as e:
+        raise HTTPException(404, str(e)) from e
+    except Exception as e:
+        raise HTTPException(400, f"{type(e).__name__}: {e}") from e
 
 
 @app.get("/api/live/replay/{subject_id}")

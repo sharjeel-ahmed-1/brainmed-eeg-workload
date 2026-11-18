@@ -43,4 +43,23 @@ export const api = {
   },
   liveReplay: (id: number, maxWindows = 24) =>
     json<LiveReplay>(`/api/live/replay/${id}?max_windows=${maxWindows}`),
+  calibrateStew: (id: number, nBaseline = 10, nTask = 10) =>
+    json<SubjectReport>(
+      `/api/calibrate/stew/${id}?n_baseline=${nBaseline}&n_task=${nTask}`,
+      { method: "POST" }
+    ),
+  calibrateUpload: async (baseline: File, task: File) => {
+    const fd = new FormData();
+    fd.append("baseline", baseline);
+    fd.append("task", task);
+    return json<SubjectReport>("/api/calibrate/upload", { method: "POST", body: fd });
+  },
+  scoreWithCalib: async (calibId: string, file: File) => {
+    const fd = new FormData();
+    fd.append("file", file);
+    return json<SubjectReport>(`/api/calibrate/${calibId}/score`, {
+      method: "POST",
+      body: fd,
+    });
+  },
 };

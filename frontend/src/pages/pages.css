@@ -269,6 +269,33 @@ td {
   cursor: wait;
 }
 
+.primary-btn.secondary-tone {
+  background: linear-gradient(120deg, #3d6a8a, #2a9bb0);
+  color: #e8f6ff;
+}
+
+.calib-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.calib-row input[type="number"] {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.calib-banner {
+  border-color: rgba(94, 207, 122, 0.35);
+}
+
 .verdict {
   border-radius: 14px;
   padding: 16px;

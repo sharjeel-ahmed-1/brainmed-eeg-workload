@@ -14,6 +14,19 @@ export interface BandInfo {
 
 export type ModelMode = "demo_all_subject" | "loso_held_out";
 
+export interface CalibMeta {
+  mode?: string;
+  subject_idx?: number;
+  n_baseline?: number;
+  n_task?: number;
+  n_total_epochs?: number;
+  n_score_epochs?: number;
+  score_set?: string;
+  baseline_file?: string;
+  task_file?: string;
+  message?: string;
+}
+
 export interface SubjectReport {
   source: string;
   subject_idx?: number | null;
@@ -29,6 +42,8 @@ export interface SubjectReport {
   band_profile: Record<string, number>;
   model_type?: ModelMode | string;
   train_subjects?: number[] | null;
+  calib_id?: string | null;
+  calib?: CalibMeta | null;
   honest: {
     loso_null: boolean;
     message: string;
@@ -45,6 +60,7 @@ export interface MethodsInfo {
   majority_acc: number;
   perm_p_acc: number;
   message: string;
+  calibration?: string;
   montage: { assumed: boolean; names: string[]; note: string };
   units: string;
   lifestyle: string;

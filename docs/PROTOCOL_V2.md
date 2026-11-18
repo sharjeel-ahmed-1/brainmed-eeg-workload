@@ -53,6 +53,12 @@ Never tune on the outer test subject.
 - API modes: `demo_all_subject` vs `loso_held_out` (see `src/predict.py` / API).
 - UI banners: null v1 LOSO; DEMO lifestyle; Hz proxies.
 - Live path: STEW replay stream (`/api/live/replay`) before real headset.
+- **Within-subject calibration** (`src/calibrate.py`):
+  - `POST /api/calibrate/stew/{id}` — first epochs=low, last=high; score middle when possible
+  - `POST /api/calibrate/upload` — real baseline + task FIF/EDF
+  - `POST /api/calibrate/{id}/score` — score new file with saved calibrator
+  - Honest: personal relative score only; does **not** claim to fix cross-subject LOSO null
+  - Reports UI: calibration panel + active `calib_id`
 
 ## Track D — Riemannian geometry (feature upgrade on Track B labels)
 

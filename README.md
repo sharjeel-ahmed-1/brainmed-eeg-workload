@@ -54,8 +54,15 @@ Open **http://127.0.0.1:5173**
 | Page | Purpose |
 |------|---------|
 | Overview | 3D brain, band proxies, DEMO lifestyle widgets |
-| Reports | Upload EEG / score STEW subject (`demo_all_subject` or `loso_held_out`) |
+| Reports | Upload / STEW score (`demo_all_subject` or `loso_held_out`) + **within-subject calibration** |
 | My History | Local browser session history |
+
+**Within-subject calibration** (best product angle while cross-subject LOSO is null): fit a personal baseline-vs-task model on one session, then score held-out epochs / new uploads. STEW uses a simulated first/last epoch split; real use is baseline+task file upload.
+
+```bash
+# STEW demo split (middle epochs scored)
+curl -X POST "http://127.0.0.1:8000/api/calibrate/stew/0?n_baseline=10&n_task=10"
+```
 
 Demo upload files (local): `data/exports/demo_upload_S00_raw.fif` (generate via `src.predict.export_stew_subject_fif`).
 

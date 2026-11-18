@@ -15,19 +15,31 @@ export function ReportsPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [methodsMsg, setMethodsMsg] = useState<string>("");
+  const [calibNote, setCalibNote] = useState<string>("");
+  const [nBaseline, setNBaseline] = useState(10);
+  const [nTask, setNTask] = useState(10);
+  const [calibId, setCalibId] = useState<string | null>(null);
 
   useEffect(() => {
     api.subjects().then((r) => setSubjects(r.subjects.map((s) => ({ id: s.id, true_label_name: s.true_label_name }))));
-    api.methods().then((m) => setMethodsMsg(m.message)).catch(() => undefined);
+    api.methods().then((m) => {
+      setMethodsMsg(m.message);
+      setCalibNote(m.calibration ?? "");
+    }).catch(() => undefined);
   }, []);
+
+  const applyReport = (rep: SubjectReport, label: string) => {
+    setReport(rep);
+    if (rep.calib_id) setCalibId(rep.calib_id);
+    pushHistory(rep, label);
+  };
 
   const scoreSubject = async () => {
     setBusy(true);
     setError(null);
     try {
       const rep = await api.subjectReport(sid, modelMode);
-      setReport(rep);
-      pushHistory(rep, `Report S${String(sid).padStart(2, "0")} · ${modelMode}`);
+      applyReport(rep, `Report S${String(sid).padStart(2, "0")} · ${modelMode}`);
     } catch (e) {
       setError(String((e as Error).message ?? e));
     } finally {
@@ -41,8 +53,48 @@ export function ReportsPage() {
     setError(null);
     try {
       const rep = await api.upload(file);
-      setReport(rep);
-      pushHistory(rep, file.name);
+      applyReport(rep, file.name);
+    } catch (e) {
+      setError(String((e as Error).message ?? e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const calibrateStew = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const rep = await api.calibrateStew(sid, nBaseline, nTask);
+      applyReport(rep, `Calib S${String(sid).padStart(2, "0")} · within-subject`);
+    } catch (e) {
+      setError(String((e as Error).message ?? e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const calibrateFiles = async (baseline: File | null, task: File | null) => {
+    if (!baseline || !task) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const rep = await api.calibrateUpload(baseline, task);
+      applyReport(rep, `Calib ${baseline.name}→${task.name}`);
+    } catch (e) {
+      setError(String((e as Error).message ?? e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const scoreCalibUpload = async (file: File | null) => {
+    if (!file || !calibId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const rep = await api.scoreWithCalib(calibId, file);
+      applyReport(rep, `Score w/ calib ${calibId.slice(0, 6)} · ${file.name}`);
     } catch (e) {
       setError(String((e as Error).message ?? e));
     } finally {
@@ -56,7 +108,7 @@ export function ReportsPage() {
         <div>
           <h2>Reports</h2>
           <p className="muted">
-            Upload EEG or score a STEW subject — pipeline score, not clinical / not LOSO-validated product.
+            Upload EEG, score STEW, or run within-subject calibration — not clinical / not LOSO-validated product.
           </p>
         </div>
       </div>
@@ -64,6 +116,11 @@ export function ReportsPage() {
       {methodsMsg && (
         <div className="methods-banner">
           <strong>Methods:</strong> {methodsMsg}
+        </div>
+      )}
+      {calibNote && (
+        <div className="methods-banner calib-banner">
+          <strong>Calibration:</strong> {calibNote}
         </div>
       )}
 
@@ -99,11 +156,88 @@ export function ReportsPage() {
           <button type="button" className="primary-btn" disabled={busy} onClick={scoreSubject}>
             {busy ? "Scoring…" : "Score subject"}
           </button>
+
+          <hr />
+          <h3>Within-subject calibration</h3>
+          <p className="muted tiny">
+            Personal relative score: fit on this session only (baseline vs task). Best product angle while
+            cross-subject LOSO stays null.
+          </p>
+          <div className="calib-row">
+            <label className="muted tiny">
+              Baseline epochs
+              <input
+                type="number"
+                min={2}
+                max={30}
+                value={nBaseline}
+                onChange={(e) => setNBaseline(Number(e.target.value))}
+              />
+            </label>
+            <label className="muted tiny">
+              Task epochs
+              <input
+                type="number"
+                min={2}
+                max={30}
+                value={nTask}
+                onChange={(e) => setNTask(Number(e.target.value))}
+              />
+            </label>
+          </div>
+          <button type="button" className="primary-btn secondary-tone" disabled={busy} onClick={calibrateStew}>
+            {busy ? "Calibrating…" : "Calibrate STEW (first/last split)"}
+          </button>
+          <p className="muted tiny" style={{ marginTop: 10 }}>
+            Or upload real baseline + task recordings
+          </p>
+          <label className="muted tiny" style={{ display: "block" }}>
+            Baseline (low)
+            <input
+              type="file"
+              accept=".edf,.fif,.bdf,.set"
+              id="calib-baseline"
+              style={{ display: "block", marginTop: 4 }}
+            />
+          </label>
+          <label className="muted tiny" style={{ display: "block", marginTop: 8 }}>
+            Task (high)
+            <input
+              type="file"
+              accept=".edf,.fif,.bdf,.set"
+              id="calib-task"
+              style={{ display: "block", marginTop: 4 }}
+            />
+          </label>
+          <button
+            type="button"
+            className="primary-btn secondary-tone"
+            disabled={busy}
+            onClick={() => {
+              const b = (document.getElementById("calib-baseline") as HTMLInputElement)?.files?.[0] ?? null;
+              const t = (document.getElementById("calib-task") as HTMLInputElement)?.files?.[0] ?? null;
+              void calibrateFiles(b, t);
+            }}
+          >
+            Fit calibrator from uploads
+          </button>
+          {calibId && (
+            <>
+              <p className="muted tiny" style={{ marginTop: 10 }}>
+                Active calib: <code>{calibId}</code> — score another file
+              </p>
+              <input
+                type="file"
+                accept=".edf,.fif,.bdf,.set"
+                onChange={(e) => void scoreCalibUpload(e.target.files?.[0] ?? null)}
+              />
+            </>
+          )}
         </section>
 
         <section className="glass report-out">
           {error && <div className="error-banner">{error}</div>}
-          {!report && !error && <p className="muted empty">Score a subject or upload a file to see output.</p>}
+          {!report && !error && <p className="muted empty">Score a subject, upload, or calibrate to see output.</p>}
           {report && (
             <>
               <div className={`verdict ${report.pred_label === "HIGH" ? "high" : "low"}`}>
@@ -116,8 +250,18 @@ export function ReportsPage() {
                   {report.train_subjects
                     ? ` · trained on ${report.train_subjects.length} subjects`
                     : ""}
+                  {report.calib_id ? ` · calib ${report.calib_id}` : ""}
                 </div>
               </div>
+              {report.calib && (
+                <p className="muted tiny">
+                  Calib: {report.calib.mode}
+                  {report.calib.score_set ? ` · score set=${report.calib.score_set}` : ""}
+                  {report.calib.n_baseline != null
+                    ? ` · low=${report.calib.n_baseline} high=${report.calib.n_task}`
+                    : ""}
+                </p>
+              )}
               {report.y_true != null && (
                 <p className="muted">
                   True label: {report.y_true === 1 ? "HIGH" : "LOW"} ·{" "}
