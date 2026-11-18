@@ -29,9 +29,9 @@ export function TopNav() {
           </span>
           <span className="brand-block">
             <span className="brand-name">
-              BrainMed<span className="plus">+</span>
+              EEG Workload
             </span>
-            <span className="brand-sub">EEG Workload Evaluation Toolkit · research prototype</span>
+            <span className="brand-sub">Evaluation Toolkit · research prototype</span>
           </span>
         </div>
         <div className="nav-links">

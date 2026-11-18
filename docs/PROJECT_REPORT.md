@@ -1,6 +1,6 @@
-# Project Report — BrainMed+ / EEG Workload Evaluation Toolkit
+# Project Report — EEG Workload Evaluation Toolkit
 
-**Title:** BrainMed+ — EEG Workload Evaluation Toolkit (research prototype)  
+**Title:** EEG Workload Evaluation Toolkit (research prototype)  
 **Type:** Research / internship portfolio prototype  
 **Primary claim:** Subject-wise LOSO + transparent under-majority STEW result; UI demos interaction design, not clinical decoding.
 
@@ -8,7 +8,7 @@
 
 ## 1. Executive summary
 
-This project evaluates cognitive-workload labels from EEG using the **STEW** dataset, with **leave-one-subject-out (LOSO)** only (no random epoch splits), and ships a **BrainMed+** React + FastAPI dashboard (research prototype) plus a legacy Streamlit demo.
+This project evaluates cognitive-workload labels from EEG using the **STEW** dataset, with **leave-one-subject-out (LOSO)** only (no random epoch splits), and ships a React + FastAPI dashboard (research prototype) plus a legacy Streamlit demo.
 
 Under a **frozen** preprocess → band-power → Random Forest protocol, primary 2-class LOSO accuracy was **0.356** (majority baseline **0.556**). With **one label per subject**, effective n = **45** subject-level decisions — an **under-powered** cross-subject setup with high variance. Permutation p_acc ≈ 0.98. A positive control (α×8) **passed**, showing the pipeline can detect injected spectral change. The UI labels lifestyle charts as **DEMO** and states the STEW LOSO finding in-product.
 
@@ -20,7 +20,7 @@ Under a **frozen** preprocess → band-power → Random Forest protocol, primary
 |------|-------------|
 | Research | Estimate high vs low cognitive workload from EEG with subject-generalization |
 | Methods | Freeze protocol; report failures; permutation + positive control |
-| Product | Dashboard UI (BrainMed+) for reports, bands, 3D brain — research prototype |
+| Product | Dashboard UI for reports, bands, 3D brain — research prototype |
 | Honesty | No inflated accuracy claims; demo model ≠ held-out LOSO model |
 
 ---
@@ -55,7 +55,7 @@ Under a **frozen** preprocess → band-power → Random Forest protocol, primary
 | **joblib** | Model persistence, parallel workers |
 | **matplotlib** | Interpretation figures |
 | **Streamlit** | Legacy adaptive demo (`app.py`) |
-| **FastAPI + Uvicorn** | BrainMed+ API (`src/api_server.py`) |
+| **FastAPI + Uvicorn** | Toolkit API (`src/api_server.py`) |
 
 Config: `config.py` (paths, `SEED`, bands, reject thresholds). No hardcoded data paths in modules.
 
@@ -140,7 +140,7 @@ Sources: `logs/sanity_frozen_parallel.log`, `logs/perm_variants.log`, `data/SANI
 
 ## 6. Applications & UI
 
-### 6.1 BrainMed+ (primary UI)
+### 6.1 Primary UI (React + FastAPI)
 
 | Layer | Tech |
 |-------|------|
@@ -199,7 +199,7 @@ STEW .mat ──► load → preprocess → QC → band-power features
               Streamlit app          FastAPI api_server
                                               │
                                               ▼
-                                    BrainMed+ React (Vite)
+                                    React dashboard (Vite)
 ```
 
 ---

@@ -1,4 +1,4 @@
-# BrainMed+ — EEG Workload Evaluation Toolkit *(research prototype)*
+# EEG Workload Evaluation Toolkit *(research prototype)*
 
 Subject-wise EEG cognitive-workload **evaluation toolkit** with a dashboard UI.  
 Not a clinical or consumer medical product — research / portfolio prototype only.

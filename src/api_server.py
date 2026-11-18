@@ -1,5 +1,5 @@
 """
-FastAPI adapter for BrainMed+ dashboard.
+FastAPI adapter for the EEG Workload Evaluation Toolkit dashboard.
 Wraps existing predict / report_viz — no duplicate ML.
 """
 from __future__ import annotations
@@ -57,8 +57,8 @@ BAND_META = {
 }
 
 app = FastAPI(
-    title="BrainMed+ EEG API",
-    description="EEG Workload Evaluation Toolkit (research prototype) — not a clinical product.",
+    title="EEG Workload Evaluation Toolkit API",
+    description="Research prototype — not a clinical product.",
     version="1.0.0",
 )
 app.add_middleware(
@@ -573,7 +573,7 @@ def _demo_dashboard_body(range_name: RangeName, subject_id: Optional[int] = None
     }
 
 
-# ---- Static BrainMed+ UI (production / tunnel): build with `npm run build` in frontend/
+# ---- Static UI (production / tunnel): build with `npm run build` in frontend/
 if FRONTEND_DIST.is_dir() and (FRONTEND_DIST / "index.html").exists():
     assets = FRONTEND_DIST / "assets"
     if assets.is_dir():

@@ -1,6 +1,6 @@
 # Documentation index
 
-Research and methods notes for **BrainMed+ — EEG Workload Evaluation Toolkit (research prototype)**.
+Research and methods notes for the **EEG Workload Evaluation Toolkit (research prototype)**.
 
 | File | Topic |
 |------|--------|

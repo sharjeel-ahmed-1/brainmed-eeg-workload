@@ -1,5 +1,5 @@
 """
-Lightweight free DB for BrainMed+ session history.
+Lightweight free DB for toolkit session history.
 
 - Default: SQLite file at data/app.db (local / ephemeral on some hosts)
 - Production: set DATABASE_URL to free Postgres (Neon / Render / etc.)
