@@ -54,6 +54,25 @@ Never tune on the outer test subject.
 - UI banners: null v1 LOSO; DEMO lifestyle; Hz proxies.
 - Live path: STEW replay stream (`/api/live/replay`) before real headset.
 
+## Track D — Riemannian geometry (feature upgrade on Track B labels)
+
+Motivation: Track B denser Control/Stress labels still near chance with band-power RF; next lever is SPD covariance geometry (not STEW retuning).
+
+| Item | Value |
+|------|--------|
+| Data | Same newdataset caches as Track B (250 Hz) |
+| Preprocess | Bandpass 1–40, notch 50, avg-ref, 4.0 s epochs, amp MAD reject |
+| Pipeline | `Covariances(oas) → TangentSpace(riemann) → StandardScaler → LogisticRegression(balanced, seed=SEED)` |
+| Split | Leave-one-**subject**-out; recording = mean epoch probability |
+| Metrics | acc, bal-acc, macro-F1, confusion matrix |
+| Logs | `logs/v2/RIEMANN_*.md` / `riemann_*_summary.json` only (does not replace Track B) |
+
+Frozen before seeing outer LOSO; no hyperparameter search on held-out subjects.
+
+```bash
+python -m src.train_v2_riemann --conditions AC1,EO,AC2,AC3,AC4 --log-dir logs/v2
+```
+
 ## Runbook
 
 ```bash
@@ -66,6 +85,9 @@ python -m src.inspect_newdataset
 
 # STEW multi-threshold (v1 stack, new logs only)
 python -m src.train_v2_stew_thresholds --thresholds 6,7,8 --log-dir logs/v2
+
+# Track D Riemannian (local; needs Track B caches)
+python -m src.train_v2_riemann --conditions AC1,EO,AC2,AC3,AC4 --log-dir logs/v2
 ```
 
 ## Out of scope for v2
