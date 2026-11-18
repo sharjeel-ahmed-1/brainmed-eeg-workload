@@ -166,16 +166,12 @@ def _report_from_predict(result: Dict[str, Any]) -> Dict[str, Any]:
 
 @app.on_event("startup")
 def _startup():
+    # Keep startup light on free-tier RAM — model loads lazily on first predict.
     try:
         init_db()
         print(f"db ready: {db_info()}", flush=True)
     except Exception as e:
         print(f"startup db init: {e}", flush=True)
-    try:
-        get_model()
-    except Exception as e:
-        # Allow health to report; first request may retry
-        print(f"startup model load: {e}")
 
 
 class HistoryIn(BaseModel):
