@@ -1,7 +1,7 @@
 # Permanent host on Render (free web service sleeps after idle; URL stays).
 services:
   - type: web
-    name: brainmed-eeg-workload
+    name: eeg-workload
     runtime: docker
     plan: free
     healthCheckPath: /api/health

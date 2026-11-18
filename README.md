@@ -10,8 +10,8 @@ Not a clinical or consumer medical product — research / portfolio prototype on
 | Dashboard | React + Vite + Three.js (`frontend/`) |
 | Legacy demo | Streamlit (`app.py`) |
 
-**GitHub:** [sharjeel-ahmed-1/brainmed-eeg-workload](https://github.com/sharjeel-ahmed-1/brainmed-eeg-workload)  
-**Live demo:** [brainmed-eeg-workload.onrender.com](https://brainmed-eeg-workload.onrender.com) — free Render host; **first load after idle ~30–60 s** (cold start / wake).
+**GitHub:** [sharjeel-ahmed-1/eeg-workload](https://github.com/sharjeel-ahmed-1/eeg-workload)  
+**Live demo:** [brainmed-eeg-workload.onrender.com](https://brainmed-eeg-workload.onrender.com) — free Render host; **first load after idle ~30–60 s** (cold start / wake). *(Service slug still `brainmed-…` until renamed in the Render dashboard → then URL becomes `eeg-workload.onrender.com`.)*
 
 ---
 
@@ -28,7 +28,7 @@ Not a clinical or consumer medical product — research / portfolio prototype on
 ## Repository structure
 
 ```text
-brainmed-eeg-workload/
+eeg-workload/
 ├── README.md
 ├── docs/                     # Methods, results, protocols
 ├── src/                      # Train / predict / API / DB
@@ -44,7 +44,7 @@ brainmed-eeg-workload/
 
 ```bash
 # Terminal 1 — API
-cd brainmed-eeg-workload
+cd eeg-workload
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn src.api_server:app --reload --port 8000
@@ -92,11 +92,11 @@ Product honesty paths: `GET /api/methods`, `?model_mode=loso_held_out`, `GET /ap
 ## Public demo (Render)
 
 ```bash
-docker build -t brainmed .
-docker run --rm -p 8000:8000 brainmed
+docker build -t eeg-workload .
+docker run --rm -p 8000:8000 eeg-workload
 ```
 
-Hosted: https://brainmed-eeg-workload.onrender.com  
+Hosted: https://brainmed-eeg-workload.onrender.com (rename service to `eeg-workload` in Render to get `https://eeg-workload.onrender.com`)  
 **First load after idle ~30–60 s.** Free tier may sleep; SQLite history can reset on cold instances unless you set a persistent `DATABASE_URL`.
 
 ---
