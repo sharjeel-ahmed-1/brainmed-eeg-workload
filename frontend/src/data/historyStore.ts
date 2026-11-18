@@ -1,13 +1,21 @@
+import { api } from "../api/client";
+import { getDisplayName } from "./clientId";
 import type { HistoryEntry, SubjectReport } from "./types";
+
+export { getClientKey, getDisplayName, setDisplayName } from "./clientId";
 
 const KEY = "brainmed_history_v1";
 
-export function loadHistory(): HistoryEntry[] {
+export function loadHistoryLocal(): HistoryEntry[] {
   try {
     return JSON.parse(localStorage.getItem(KEY) ?? "[]") as HistoryEntry[];
   } catch {
     return [];
   }
+}
+
+function saveLocal(entries: HistoryEntry[]) {
+  localStorage.setItem(KEY, JSON.stringify(entries.slice(0, 40)));
 }
 
 export function pushHistory(report: SubjectReport, label: string) {
@@ -21,7 +29,31 @@ export function pushHistory(report: SubjectReport, label: string) {
     subject_idx: report.subject_idx ?? null,
     model_type: report.model_type ?? null,
   };
-  const next = [entry, ...loadHistory()].slice(0, 40);
-  localStorage.setItem(KEY, JSON.stringify(next));
+  const next = [entry, ...loadHistoryLocal()].slice(0, 40);
+  saveLocal(next);
+  // Fire-and-forget cloud sync (free DB / SQLite)
+  void api.postHistory(entry, getDisplayName()).catch(() => undefined);
   return next;
+}
+
+export async function refreshHistoryFromServer(): Promise<HistoryEntry[]> {
+  try {
+    const remote = await api.getHistory();
+    if (remote.entries?.length) {
+      saveLocal(remote.entries);
+      return remote.entries;
+    }
+  } catch {
+    /* offline / cold start — keep local */
+  }
+  return loadHistoryLocal();
+}
+
+export async function clearHistoryAll(): Promise<void> {
+  localStorage.removeItem(KEY);
+  try {
+    await api.clearHistory();
+  } catch {
+    /* ignore */
+  }
 }

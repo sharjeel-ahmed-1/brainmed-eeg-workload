@@ -1,6 +1,8 @@
 data/raw/
 data/cache/
 data/exports/
+data/*.db
+data/*.db-*
 models/*.joblib
 models/calib/
 __pycache__/

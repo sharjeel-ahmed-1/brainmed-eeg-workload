@@ -1,5 +1,7 @@
+import { getClientKey } from "../data/clientId";
 import type {
   DemoDashboard,
+  HistoryEntry,
   LiveReplay,
   MethodsInfo,
   ModelMode,
@@ -14,7 +16,11 @@ const BASE =
   (import.meta.env.DEV ? "http://127.0.0.1:8000" : "");
 
 async function json<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, init);
+  const headers = new Headers(init?.headers);
+  if (!headers.has("X-Client-Key")) {
+    headers.set("X-Client-Key", getClientKey());
+  }
+  const res = await fetch(`${BASE}${path}`, { ...init, headers });
   if (!res.ok) {
     let detail = res.statusText;
     try {
@@ -65,4 +71,13 @@ export const api = {
       body: fd,
     });
   },
+  getHistory: () =>
+    json<{ client_key: string; entries: HistoryEntry[] }>("/api/history"),
+  postHistory: (entry: HistoryEntry, displayName?: string) =>
+    json<{ ok: boolean; entry: HistoryEntry }>("/api/history", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...entry, display_name: displayName ?? null }),
+    }),
+  clearHistory: () => json<{ ok: boolean; deleted: number }>("/api/history", { method: "DELETE" }),
 };

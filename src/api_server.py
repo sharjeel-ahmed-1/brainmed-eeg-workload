@@ -9,10 +9,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional
 
 import numpy as np
-from fastapi import FastAPI, File, HTTPException, Query, UploadFile
+from fastapi import FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
 
 import config
 import config_ext
@@ -23,6 +24,7 @@ from src.calibrate import (
     load_calibrator,
     score_with_calibrator,
 )
+from src.db import add_history, clear_history, db_info, init_db, list_history
 from src.load import load_stew_labels, load_subject_raw
 from src.predict import (
     load_model,
@@ -160,22 +162,101 @@ def _report_from_predict(result: Dict[str, Any]) -> Dict[str, Any]:
 @app.on_event("startup")
 def _startup():
     try:
+        init_db()
+        print(f"db ready: {db_info()}", flush=True)
+    except Exception as e:
+        print(f"startup db init: {e}", flush=True)
+    try:
         get_model()
     except Exception as e:
         # Allow health to report; first request may retry
         print(f"startup model load: {e}")
 
 
+class HistoryIn(BaseModel):
+    id: str = Field(min_length=1, max_length=64)
+    at: str
+    label: str
+    pred_label: str
+    p_high: float
+    source: str
+    subject_idx: Optional[int] = None
+    model_type: Optional[str] = None
+    display_name: Optional[str] = None
+
+
+def _require_client_key(x_client_key: Optional[str]) -> str:
+    key = (x_client_key or "").strip()
+    if len(key) < 8 or len(key) > 64:
+        raise HTTPException(400, "Missing or invalid X-Client-Key header")
+    return key
+
+
 @app.get("/api/health")
 def health():
     ok = config.MODEL_PATH.exists() or True
+    info = {"ok": False, "backend": "unknown"}
+    try:
+        init_db()
+        info = {**db_info(), "ok": True}
+    except Exception as e:
+        info = {"ok": False, "backend": db_info().get("backend"), "error": str(e)}
     return {
         "ok": True,
         "model_exists": config.MODEL_PATH.exists(),
         "n_subjects": config.N_SUBJECTS,
         "n_channels": config.N_CHANNELS,
         "seed": config.SEED,
+        "database": info,
     }
+
+
+@app.get("/api/history")
+def get_history(
+    x_client_key: Optional[str] = Header(default=None, alias="X-Client-Key"),
+    limit: int = Query(40, ge=1, le=100),
+):
+    key = _require_client_key(x_client_key)
+    try:
+        return {"client_key": key, "entries": list_history(key, limit=limit)}
+    except Exception as e:
+        raise HTTPException(500, f"{type(e).__name__}: {e}") from e
+
+
+@app.post("/api/history")
+def post_history(
+    body: HistoryIn,
+    x_client_key: Optional[str] = Header(default=None, alias="X-Client-Key"),
+):
+    key = _require_client_key(x_client_key)
+    try:
+        entry = add_history(
+            client_key=key,
+            entry_id=body.id,
+            at=body.at,
+            label=body.label,
+            pred_label=body.pred_label,
+            p_high=body.p_high,
+            source=body.source,
+            subject_idx=body.subject_idx,
+            model_type=body.model_type,
+            display_name=body.display_name,
+        )
+        return {"ok": True, "entry": entry}
+    except Exception as e:
+        raise HTTPException(500, f"{type(e).__name__}: {e}") from e
+
+
+@app.delete("/api/history")
+def delete_history(
+    x_client_key: Optional[str] = Header(default=None, alias="X-Client-Key"),
+):
+    key = _require_client_key(x_client_key)
+    try:
+        n = clear_history(key)
+        return {"ok": True, "deleted": n}
+    except Exception as e:
+        raise HTTPException(500, f"{type(e).__name__}: {e}") from e
 
 
 @app.get("/api/subjects")

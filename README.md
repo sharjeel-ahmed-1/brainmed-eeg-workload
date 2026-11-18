@@ -55,7 +55,7 @@ Open **http://127.0.0.1:5173**
 |------|---------|
 | Overview | 3D brain, band proxies, DEMO lifestyle widgets |
 | Reports | Upload / STEW score (`demo_all_subject` or `loso_held_out`) + **within-subject calibration** |
-| My History | Local browser session history |
+| My History | Cloud-synced session history (free SQLite / optional Postgres `DATABASE_URL`) |
 
 **Within-subject calibration** (best product angle while cross-subject LOSO is null): fit a personal baseline-vs-task model on one session, then score held-out epochs / new uploads. STEW uses a simulated first/last epoch split; real use is baseline+task file upload.
 
