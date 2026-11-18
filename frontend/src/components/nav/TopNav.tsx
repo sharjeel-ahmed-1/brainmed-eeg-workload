@@ -50,10 +50,14 @@ export function TopNav() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
           >
-            <span className="avatar" aria-hidden>
-              RJ
-            </span>
-            <span className="profile-name">Richard Jarule</span>
+            <img
+              className="avatar"
+              src="/profile-sharjeel.jpg"
+              alt=""
+              width={34}
+              height={34}
+            />
+            <span className="profile-name">Sharjeel Ahmed</span>
             <span className="caret">▾</span>
           </button>
           {open && (

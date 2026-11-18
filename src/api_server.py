@@ -11,6 +11,8 @@ from typing import Any, Dict, List, Literal, Optional
 import numpy as np
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 import config
 import config_ext
@@ -54,16 +56,13 @@ BAND_META = {
 app = FastAPI(title="BrainMed+ EEG API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-    ],
+    allow_origin_regex=r"https://.*\.trycloudflare\.com|http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+FRONTEND_DIST = config.ROOT / "frontend" / "dist"
 
 _model = None
 
@@ -477,3 +476,23 @@ def _demo_dashboard_body(range_name: RangeName, subject_id: Optional[int] = None
         },
         "band_profile_used": profile,
     }
+
+
+# ---- Static BrainMed+ UI (production / tunnel): build with `npm run build` in frontend/
+if FRONTEND_DIST.is_dir() and (FRONTEND_DIST / "index.html").exists():
+    assets = FRONTEND_DIST / "assets"
+    if assets.is_dir():
+        app.mount("/assets", StaticFiles(directory=assets), name="assets")
+
+    @app.get("/")
+    def spa_root():
+        return FileResponse(FRONTEND_DIST / "index.html")
+
+    @app.get("/{full_path:path}")
+    def spa_fallback(full_path: str):
+        if full_path.startswith("api/") or full_path in {"docs", "openapi.json", "redoc"}:
+            raise HTTPException(404, "Not found")
+        candidate = FRONTEND_DIST / full_path
+        if candidate.is_file():
+            return FileResponse(candidate)
+        return FileResponse(FRONTEND_DIST / "index.html")

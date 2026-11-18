@@ -8,7 +8,10 @@ import type {
   SubjectReport,
 } from "../data/types";
 
-const BASE = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+// Dev: hit local API. Production / tunnel: same-origin (FastAPI serves frontend/dist).
+const BASE =
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.DEV ? "http://127.0.0.1:8000" : "");
 
 async function json<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, init);

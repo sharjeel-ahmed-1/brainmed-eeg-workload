@@ -81,6 +81,22 @@ Honesty endpoints: `GET /api/methods`, `?model_mode=loso_held_out`, `GET /api/li
 
 ---
 
+## Public demo (single URL)
+
+Build the UI into FastAPI, then tunnel (Cloudflare quick tunnel needs your machine online):
+
+```bash
+cd frontend && npm run build && cd ..
+source .venv/bin/activate
+uvicorn src.api_server:app --host 127.0.0.1 --port 8000
+# other terminal:
+cloudflared tunnel --url http://127.0.0.1:8000
+```
+
+Same-origin `/api/*` + SPA from `frontend/dist`.
+
+---
+
 ## Documentation
 
 | Document | Description |
