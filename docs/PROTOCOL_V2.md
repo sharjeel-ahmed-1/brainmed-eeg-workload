@@ -4,7 +4,7 @@ v1 STEW numbers in `RESULTS.md` stay locked. Anything below is a **new** protoco
 
 ## Motivation
 
-v1 limitation: one coarse `rating≥7` label per subject → null LOSO.  
+v1 limitation: one coarse `rating≥7` label per subject → under-powered subject-level LOSO (n=45).  
 v2 addresses label density and evaluation hygiene without leaking test subjects into tuning.
 
 ## Track A — STEW multi-threshold (same data, honest sensitivity)
@@ -51,13 +51,13 @@ Never tune on the outer test subject.
 ## Track C — Product honesty (independent of decoding lift)
 
 - API modes: `demo_all_subject` vs `loso_held_out` (see `src/predict.py` / API).
-- UI banners: null v1 LOSO; DEMO lifestyle; Hz proxies.
+- UI banners: under-powered STEW LOSO; DEMO lifestyle; Hz proxies.
 - File replay (simulated live): STEW window stream (`/api/live/replay`) — not a headset.
 - **Within-subject calibration** (`src/calibrate.py`):
   - `POST /api/calibrate/stew/{id}` — first epochs=low, last=high; score middle when possible
   - `POST /api/calibrate/upload` — real baseline + task FIF/EDF
   - `POST /api/calibrate/{id}/score` — score new file with saved calibrator
-  - Honest: personal relative score only; does **not** claim to fix cross-subject LOSO null
+  - Honest: personal relative score only; does **not** claim to fix cross-subject STEW LOSO
   - Reports UI: calibration panel + active `calib_id`
   - **My History DB** (`src/db.py`): free SQLite by default; optional `DATABASE_URL` Postgres (Neon etc.)
     - `GET/POST/DELETE /api/history` with `X-Client-Key` (browser UUID; not full auth)

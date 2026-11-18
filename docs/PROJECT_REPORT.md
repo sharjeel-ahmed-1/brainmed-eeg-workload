@@ -134,7 +134,7 @@ Sources: `logs/sanity_frozen_parallel.log`, `logs/perm_variants.log`, `data/SANI
 
 **Verdict:** No LOSO-detectable `rating≥7` signal under this frozen stack. Pipeline detects injected α change; natural labels do not beat chance/majority.
 
-**Interpretation (descriptive only):** All-subject RF importances ranked several γ/β features high; Variant A LR coefs small. Do not over-read maps given null LOSO + assumed montage.
+**Interpretation (descriptive only):** All-subject RF importances ranked several γ/β features high; Variant A LR coefs small. Do not over-read maps given under-majority LOSO + assumed montage.
 
 ---
 
@@ -177,7 +177,7 @@ cd frontend && npm install && npm run dev
 
 - `app.py` + `src/predict.py`  
 - STEW subject picker, optional upload, adaptive UI when predicted high  
-- Banner: null LOSO + all-subject demo model caveat  
+- Banner: under-powered STEW LOSO + all-subject demo model caveat  
 
 ```bash
 streamlit run app.py
@@ -213,7 +213,7 @@ STEW .mat ──► load → preprocess → QC → band-power features
 | `ROADMAP.md` | Phase 0–5 checklist (all done) |
 | `data/DATA_SUMMARY.md` | Raw data inspection |
 | `data/SANITY_REPORT.md` | Permutation / variants |
-| `data/INTERPRETATION.md` | Honest null framing + maps note |
+| `data/INTERPRETATION.md` | Honest under-powered LOSO framing + maps note |
 | `PROJECT_REPORT.md` | This summary |
 
 ---
@@ -222,8 +222,8 @@ STEW .mat ──► load → preprocess → QC → band-power features
 
 - Hyperparameter search / retuning after seeing LOSO numbers  
 - Random epoch train/test splits  
-- Claiming product-grade decoding from null LOSO  
-- Live headset acquisition  
+- Claiming product-grade decoding from under-majority STEW LOSO
+- Real-time headset acquisition (file replay only)
 - Dropping subjects to inflate accuracy  
 
 ---
@@ -231,7 +231,7 @@ STEW .mat ──► load → preprocess → QC → band-power features
 ## 10. Internship / portfolio takeaways
 
 1. **Subject-wise evaluation + permutation + positive control** beats a leaky high accuracy.  
-2. **Reporting a null result** is valid computational neuroscience / BCI practice.  
+2. **Reporting an under-powered / under-majority LOSO result** is valid computational neuroscience / BCI practice.  
 3. **Neuroadaptive UI** can still be prototyped honestly — as interaction design, not as proof of decoding.  
 4. End-to-end stack: research ML (MNE/sklearn) + API (FastAPI) + premium React/Three.js dashboard.
 
@@ -245,7 +245,7 @@ STEW .mat ──► load → preprocess → QC → band-power features
 
 **Frontend:** React 19, TypeScript, Vite, React Router, Recharts, Three.js, React Three Fiber, Drei, Michroma, glass UI theme, GLB brain model.
 
-**Eval ethics:** Frozen protocol, subject splits only, honest DEMO labels, documented null primary result (acc **0.356**).
+**Eval ethics:** Frozen protocol, subject splits only, honest DEMO labels, documented under-powered primary result (acc **0.356**, n=45).
 
 ---
 

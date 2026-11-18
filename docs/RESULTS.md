@@ -43,7 +43,7 @@ Sources: `logs/sanity_frozen_parallel.log`, `logs/perm_variants.log`, `data/SANI
 
 `python -m src.interpret` → `figures/` + `data/INTERPRETATION.md`.
 
-All-subject RF importances (not held-out) ranked several γ/β channel features highest; Variant A LR coefs were small (θ −0.21, θ/α +0.17). Do not over-read maps given the null LOSO result and montage assumption.
+All-subject RF importances (not held-out) ranked several γ/β channel features highest; Variant A LR coefs were small (θ −0.21, θ/α +0.17). Do not over-read maps given under-majority LOSO and the montage assumption.
 
 ## Demo
 
@@ -53,7 +53,7 @@ python -c "from src.predict import save_primary_model; save_primary_model()"
 streamlit run app.py
 ```
 
-Demo model is fit on **all** subjects. UI simplifies when predicted class = high. Banner states the null LOSO finding.
+Demo model is fit on **all** subjects. UI simplifies when predicted class = high. Banner states the under-powered STEW LOSO finding.
 
 ## Limitations
 

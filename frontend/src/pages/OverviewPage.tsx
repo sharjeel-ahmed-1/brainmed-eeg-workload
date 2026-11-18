@@ -182,7 +182,7 @@ export function OverviewPage() {
 
       {methodsMsg && (
         <div className="methods-banner">
-          <strong>Methods:</strong> LOSO acc 0.356 (null vs majority 0.556). {methodsMsg} Lifestyle charts stay{" "}
+          <strong>Methods:</strong> STEW LOSO 0.356 &lt; majority 0.556 (under-powered: n=45 subject labels). {methodsMsg} Lifestyle charts stay{" "}
           <span className="demo-pill">DEMO</span>; band Hz are proxies.
         </div>
       )}

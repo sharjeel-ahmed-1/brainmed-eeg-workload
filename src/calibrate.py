@@ -4,7 +4,7 @@ Within-subject session calibration.
 Fits a small subject-specific classifier on that person's own baseline (low)
 vs task (high) epochs, then scores held-out epochs from the same session.
 
-This does NOT claim to fix cross-subject LOSO null — it is a personal relative
+This does NOT claim to fix cross-subject STEW LOSO — it is a personal relative
 score for neuroadaptive / demo use.
 """
 from __future__ import annotations
@@ -27,7 +27,7 @@ from src.train import feature_cache_path, load_feature_cache
 CALIB_DIR = config.ROOT / "models" / "calib"
 CALIB_MSG = (
     "Within-subject calibration: model fit only on this person's baseline vs task "
-    "epochs. Cross-subject LOSO remains null — this is a personal relative score, "
+    "epochs. Cross-subject STEW LOSO stays under-powered (n=45) — personal relative score only; "
     "not a population-validated or clinical detector."
 )
 STEW_SPLIT_MSG = (
