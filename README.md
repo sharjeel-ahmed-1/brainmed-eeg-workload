@@ -11,7 +11,7 @@ Not a clinical or consumer medical product — research / portfolio prototype on
 | Legacy demo | Streamlit (`app.py`) |
 
 **GitHub:** [sharjeel-ahmed-1/eeg-workload](https://github.com/sharjeel-ahmed-1/eeg-workload)  
-**Live demo:** [brainmed-eeg-workload.onrender.com](https://brainmed-eeg-workload.onrender.com) — free Render host; **first load after idle ~30–60 s** (cold start / wake). *(Service slug still `brainmed-…` until renamed in the Render dashboard → then URL becomes `eeg-workload.onrender.com`.)*
+**Live demo:** [eeg-workload.onrender.com](https://eeg-workload.onrender.com) — free Render host; **first load after idle ~30–60 s** (cold start / wake).
 
 ---
 
@@ -96,7 +96,7 @@ docker build -t eeg-workload .
 docker run --rm -p 8000:8000 eeg-workload
 ```
 
-Hosted: https://brainmed-eeg-workload.onrender.com (rename service to `eeg-workload` in Render to get `https://eeg-workload.onrender.com`)  
+Hosted: https://eeg-workload.onrender.com  
 **First load after idle ~30–60 s.** Free tier may sleep; SQLite history can reset on cold instances unless you set a persistent `DATABASE_URL`.
 
 ---
